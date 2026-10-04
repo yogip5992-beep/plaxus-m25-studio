@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <!-- LOCKED DESKTOP CANVAS VIEWPORT: IDENTICAL DESKTOP MATRIX ON ALL PHONES & SCREENS -->
+  <!-- LOCKED DESKTOP PROPORTIONS FOR ALL DEVICES -->
   <meta name="viewport" content="width=1380, initial-scale=0.35, minimum-scale=0.2, maximum-scale=2.5, user-scalable=yes" />
   <title>PLAXUS M25 — Studio AB204 Editorial Monograph</title>
 
@@ -327,7 +327,7 @@
     .chrono-date-banner { color: var(--accent-warm); font-size: 0.84rem; font-family: var(--font-biomorph); margin-top: 8px; }
     .chrono-controls { display: flex; gap: 8px; margin-top: 18px; padding-top: 14px; border-top: 1px solid rgba(255, 255, 255, 0.08); justify-content: flex-end; }
 
-    /* Nav Slider Bar with Buttons */
+    /* Nav Slider Bar with Arrow Controls */
     .tab-slider-wrapper {
       position: relative;
       display: flex;
@@ -417,7 +417,7 @@
     .btn-like { background: rgba(244, 63, 94, 0.12); border: 1px solid rgba(244, 63, 94, 0.35); color: #fda4af; padding: 5px 10px; font-size: 0.72rem; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; clip-path: polygon(5px 0, 100% 0, calc(100% - 5px) 100%, 0 100%); transition: transform 0.15s ease; }
     .btn-like:active { transform: scale(0.92); }
 
-    /* Cockpit Strip: 3-column desktop layout */
+    /* Cockpit Strip */
     .cockpit-strip {
       display: grid;
       grid-template-columns: 1.1fr 1fr 1.6fr;
@@ -477,7 +477,7 @@
     .tab-section { display: none; }
     .tab-section.active { display: block; }
 
-    /* Tri-Hub: 3-column desktop layout */
+    /* Tri-Hub */
     .tri-hub-editorial {
       display: grid;
       grid-template-columns: 1fr 1.25fr 1.2fr;
@@ -559,6 +559,7 @@
     .spotlight-avatar img { width: 100%; height: 100%; object-fit: cover; }
     .spotlight-name { font-family: var(--font-serif); font-size: 1.35rem; font-weight: 700; line-height: 1.2; }
 
+    /* Timetable Responsive Sheet */
     .timetable-editorial-sheet {
       background: linear-gradient(135deg, rgba(16, 20, 32, 0.75) 0%, rgba(10, 13, 21, 0.9) 100%);
       border: 1px solid var(--card-border);
@@ -590,18 +591,19 @@
     .c-tad { background: rgba(244, 63, 94, 0.22); color: #fda4af; border: 1px solid rgba(244, 63, 94, 0.4); }
     .c-lb  { background: rgba(148, 163, 184, 0.08); color: #64748b; font-weight: 600; }
 
-    .scholar-grid-portfolio { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; }
+    .scholar-grid-portfolio { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
     .scholar-plate { background: rgba(255, 255, 255, 0.025); border: 1px solid var(--card-border); clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%); padding: 16px; display: flex; flex-direction: column; gap: 10px; }
     .scholar-avatar-frame { position: relative; width: 52px; height: 52px; clip-path: polygon(25% 0%, 75% 0%, 100% 25%, 100% 75%, 75% 100%, 25% 100%, 0% 75%, 0% 25%); background: rgba(229, 115, 88, 0.18); border: 1px solid rgba(255, 255, 255, 0.15); display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; flex-shrink: 0; }
     .scholar-avatar-frame img { width: 100%; height: 100%; object-fit: cover; }
     .scholar-avatar-init { font-size: 1.2rem; font-weight: 800; color: var(--accent-warm); font-family: var(--font-serif); }
+    .scholar-plate-name { font-family: var(--font-serif); font-size: 1.1rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-    .dossier-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 22px; }
+    .dossier-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
     .dossier-card { background: linear-gradient(135deg, rgba(16, 20, 32, 0.75) 0%, rgba(10, 13, 21, 0.9) 100%); border: 1px solid var(--card-border); clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px)); overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 14px 35px rgba(0, 0, 0, 0.5); }
     .dossier-image-box { width: 100%; height: 210px; position: relative; overflow: hidden; background: #080a10; }
     .dossier-image-box img { width: 100%; height: 100%; object-fit: cover; }
 
-    .radar-deadline-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+    .radar-deadline-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
     .radar-card { background: linear-gradient(135deg, rgba(16, 20, 32, 0.75) 0%, rgba(10, 13, 21, 0.9) 100%); border: 1px solid var(--card-border); clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px)); padding: 22px; display: flex; flex-direction: column; justify-content: space-between; }
     .countdown-display { font-family: var(--font-biomorph); font-size: 1.8rem; font-weight: 800; color: var(--accent-warm); margin: 8px 0; }
 
@@ -614,6 +616,9 @@
     .cal-head-day { font-size: 0.68rem; color: var(--text-2); font-weight: 700; padding: 4px 0; font-family: var(--font-biomorph); }
     .cal-day-cell { background: rgba(255, 255, 255, 0.025); border: 1px solid rgba(255, 255, 255, 0.05); clip-path: polygon(4px 0, 100% 0, calc(100% - 4px) 100%, 0 100%); padding: 8px 2px; font-size: 0.76rem; cursor: pointer; min-height: 44px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; }
     .cal-day-cell.cal-today { border-color: var(--accent); background: rgba(229, 115, 88, 0.2); font-weight: 800; }
+    .cal-dots-row { display: flex; gap: 3px; justify-content: center; margin-top: 2px; }
+    .dot-n { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); display: inline-block; }
+    .dot-d { width: 5px; height: 5px; border-radius: 50%; background: #f43f5e; display: inline-block; }
 
     .modal-backdrop-editorial { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.86); backdrop-filter: blur(14px); display: none; align-items: center; justify-content: center; z-index: 100; padding: 20px; }
     .modal-box-editorial { background: #0d101a; border: 1px solid rgba(229, 115, 88, 0.4); clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px)); width: 100%; max-width: 660px; padding: 28px; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7); max-height: 90vh; overflow-y: auto; }
@@ -625,7 +630,7 @@
 </head>
 <body>
 
-  <!-- Custom Interactive Cursor & Spotlight Elements -->
+  <!-- Custom Interactive Cursor Elements -->
   <div id="cursor-dot"></div>
   <div id="cursor-ring"></div>
   <div class="mag-canvas-dots"></div>
@@ -673,7 +678,7 @@
         <div>
           <div class="chrono-stamp-top"><span>Precision Chrono</span><span style="color:var(--accent);">AB204 Studio</span></div>
           <div class="chrono-display-large"><span id="chrono-hours-min">--:--</span><span class="chrono-seconds" id="chrono-sec">:00</span><span class="chrono-meridiem" id="chrono-ampm">AM</span></div>
-          <div class="chrono-date-banner" id="chrono-date-line">Evaluating date...</div>
+          <div class="chrono-date-banner" id="chrono-date-line">Sunday, October 4, 2026</div>
         </div>
         <div class="chrono-controls">
           <button class="btn-editorial btn-cr-lock" onclick="openCRAuthModal()"><span>🔒 CR Suite</span></button>
@@ -716,7 +721,7 @@
       </div>
     </section>
 
-    <!-- Navigation Slider With Arrow Controls -->
+    <!-- Nav Slider With Arrow Controls -->
     <div class="tab-slider-wrapper">
       <button class="slider-arrow-btn" onclick="scrollTabsNav(-260)" title="Scroll left">‹</button>
       <nav class="mag-index-nav" id="mag-tab-slider">
@@ -751,13 +756,13 @@
           <div style="display:flex; align-items:center; gap:16px; margin:10px 0 14px;">
             <div class="spotlight-avatar" id="spotlight-avatar">?</div>
             <div>
-              <div class="spotlight-name" id="spotlight-name">Scanning...</div>
+              <div class="spotlight-name" id="spotlight-name">Loading...</div>
               <div style="font-family:var(--font-biomorph); font-size:0.78rem; color:var(--accent-warm);" id="spotlight-roll">Roll No.</div>
               <div style="font-size:0.75rem; color:#cbd5e1; margin-top:2px;" id="spotlight-dob">--</div>
             </div>
           </div>
           <div style="background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.08); clip-path:polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%); padding:8px 14px; display:flex; justify-content:space-between; align-items:center; font-size:0.82rem; margin-bottom:12px;">
-            <span id="spotlight-countdown">Calculating next celebration...</span><span style="color:var(--accent-warm); font-weight:700;">🎂</span>
+            <span id="spotlight-countdown">Calculating celebration...</span><span style="color:var(--accent-warm); font-weight:700;">🎂</span>
           </div>
           <button class="btn-editorial" style="width:100%; justify-content:center; background:linear-gradient(135deg, #e57358, #c85a3b);" onclick="fireConfettiCannon()">🎉 Blast Confetti</button>
         </div>
@@ -853,7 +858,7 @@
           </div>
           <button class="btn-editorial btn-cr-lock" onclick="triggerProtectedAction('openCRSuiteCreative')">+ Pin Creative Work</button>
         </div>
-        <div class="creative-corner-grid" id="creative-corner-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(340px, 1fr)); gap:22px;"></div>
+        <div class="creative-corner-grid" id="creative-corner-grid" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:22px;"></div>
       </div>
     </div>
 
@@ -867,7 +872,7 @@
           </div>
           <button class="btn-editorial btn-cr-lock" onclick="triggerProtectedAction('openCRSuiteBlog')">+ Publish Article</button>
         </div>
-        <div class="blogs-editorial-stream" id="class-blogs-stream" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(420px, 1fr)); gap:24px;"></div>
+        <div class="blogs-editorial-stream" id="class-blogs-stream" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:24px;"></div>
       </div>
     </div>
 
@@ -885,6 +890,7 @@
       </div>
     </div>
 
+    <!-- FOOTER CARDS -->
     <section class="bottom-portfolio-spread">
       <div class="bottom-plate">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
@@ -922,9 +928,9 @@
     </section>
   </div>
 
-  <!-- Full Article Reading Modal -->
+  <!-- Modals -->
   <div class="modal-backdrop-editorial" id="blogReaderModal">
-    <div class="modal-box-editorial" style="max-width:720px; max-height:85vh; overflow-y:auto;">
+    <div class="modal-box-editorial">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
         <span style="font-family:var(--font-biomorph); font-size:0.75rem; color:var(--cyan);" id="reader-meta">OCTOBER 2026 • ESSAY</span>
         <button class="btn-editorial" style="padding:4px 10px;" onclick="closeModal('blogReaderModal')">✕</button>
@@ -935,7 +941,6 @@
     </div>
   </div>
 
-  <!-- Add Suggestion Modal -->
   <div class="modal-backdrop-editorial" id="newSuggestionModal">
     <div class="modal-box-editorial" style="max-width:520px;">
       <h3 style="font-family:var(--font-serif); font-size:1.35rem; font-weight:700; margin-bottom:10px; color:var(--accent-warm);">💡 Submit Studio Suggestion</h3>
@@ -949,7 +954,6 @@
     </div>
   </div>
 
-  <!-- Reply Modal -->
   <div class="modal-backdrop-editorial" id="replySuggestionModal">
     <div class="modal-box-editorial" style="max-width:500px;">
       <h3 style="font-family:var(--font-serif); font-size:1.3rem; font-weight:700; margin-bottom:8px; color:var(--cyan);">💬 Post Response</h3>
@@ -964,7 +968,6 @@
     </div>
   </div>
 
-  <!-- CR Passcode Authentication Modal -->
   <div class="modal-backdrop-editorial" id="crAuthModal">
     <div class="modal-box-editorial" style="max-width:400px;">
       <h3 style="font-family:var(--font-serif); font-size:1.3rem; font-weight:700; margin-bottom:8px;">🔒 CR & Admin Suite Access</h3>
@@ -978,9 +981,8 @@
     </div>
   </div>
 
-  <!-- CR MANAGEMENT SUITE MODAL -->
   <div class="modal-backdrop-editorial" id="crSuiteModal">
-    <div class="modal-box-editorial" style="max-width:760px; max-height:90vh; overflow-y:auto;">
+    <div class="modal-box-editorial" style="max-width:760px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
         <div>
           <h3 style="font-family:var(--font-serif); font-size:1.55rem; font-weight:800;">⚙ CR Management & Editor Suite</h3>
@@ -1053,7 +1055,7 @@
           </div>
           <div class="form-unit"><label>Image URL</label><input type="text" id="cr-creative-image" class="input-field" placeholder="https://..." /></div>
           <div class="form-unit"><label>Description</label><textarea id="cr-creative-desc" class="input-field" rows="2" placeholder="Note..."></textarea></div>
-          <div style="display:flex; justify-content:flex-end;"><button class="btn-editorial" onclick="saveCreativeWork()">Pin Work & Sync</button></div>
+          <div style="display:flex; justify-content:flex-end;"><button class="btn-editorial" onclick="saveCreativeWork()">Pin Work & Broadcast</button></div>
         </div>
         <div id="cr-creative-list-manager" style="max-height:220px; overflow-y:auto;"></div>
       </div>
@@ -1068,7 +1070,7 @@
             <div class="form-unit"><label>Topic Tag</label><input type="text" id="cr-blog-tag" class="input-field" placeholder="Tag..." /></div>
           </div>
           <div class="form-unit"><label>Body Content</label><textarea id="cr-blog-body" class="input-field" rows="4" placeholder="Essay..."></textarea></div>
-          <div style="display:flex; justify-content:flex-end;"><button class="btn-editorial" onclick="saveBlogPost()">Publish & Sync</button></div>
+          <div style="display:flex; justify-content:flex-end;"><button class="btn-editorial" onclick="saveBlogPost()">Publish & Broadcast</button></div>
         </div>
         <div id="cr-blogs-list-manager" style="max-height:220px; overflow-y:auto;"></div>
       </div>
@@ -1286,17 +1288,19 @@
     ];
 
     const defaultAnnouncements = [
-      { id: 1, title: "PS-III Interim Review AB204", desc: "Keep physical drafts of regional overlays and transport networks pinned by 9:30 AM.", date: "2026-10-05" },
-      { id: 2, title: "Elective Portfolios Due", desc: "Upload draft submissions for UEF / TAD to the departmental drive.", date: "2026-10-08" }
+      { id: 1, title: "URBAN OCTOBER - WORLD HABITAT DAY", desc: "Lets celebrate URBAN OCTOBER with special reviews and lectures.", date: "2026-10-05" },
+      { id: 2, title: "PS-III Interim Review AB204", desc: "Keep physical drafts of regional overlays and transport networks pinned by 9:30 AM.", date: "2026-10-06" }
     ];
 
     const defaultDeadlines = [
-      { id: 1, title: "PS-III Studio Progress Review", subject: "PS-III", date: "2026-10-09", desc: "Full corridor development model review with jury." },
-      { id: 2, title: "UEF Land Valuation Report", subject: "UEF", date: "2026-10-14", desc: "Complete empirical hedonic model and market index analysis." },
-      { id: 3, title: "TAD Transportation Study Sheet", subject: "TAD", date: "2026-10-18", desc: "Flow volume diagrams and PCU calculations submission." }
+      { id: 1, title: "PS-III Mid Term Review Discussion", subject: "PS-III", date: "2026-10-05", desc: "Corridor plan review with faculty panel." },
+      { id: 2, title: "UEF Assignment", subject: "UEF", date: "2026-10-05", desc: "Automated Valuation Model script submission." },
+      { id: 3, title: "RMP Assignment", subject: "RMP", date: "2026-10-05", desc: "Research methodology paper draft." },
+      { id: 4, title: "PS-III Studio Progress Review", subject: "PS-III", date: "2026-10-09", desc: "Full corridor development model review with jury." }
     ];
 
-    // --- 2. LOCAL DATA STORAGE HELPER ---
+    // --- 2. LOCAL PERSISTENT STORAGE ENGINE ---
+    // Reads directly from local cache and never resets unless completely uninitialized
     function safeLoad(key, defaults) {
       try {
         const raw = localStorage.getItem(key);
@@ -1328,14 +1332,14 @@
     let deadlines = safeLoad('plaxus_deadlines', defaultDeadlines);
 
     let crPasscode = localStorage.getItem('plaxus_cr_passcode') || "m25nitc";
-    let marqueeText = localStorage.getItem('plaxus_marquee') || "The best plans leave room to be lived in. • Department of Architecture & Planning, NIT Calicut • M.Plan Semester 3 Session in Studio AB204";
+    let marqueeText = localStorage.getItem('plaxus_marquee') || "World Habitat Day on 05-10-26, 10 AM onwards • Conference Hall • Department of Architecture & Planning, NIT Calicut";
     let classPhoto = localStorage.getItem('plaxus_class_photo') || "";
     let userBg = localStorage.getItem('plaxus_user_bg') || "";
 
-    // --- 3. DUAL-TIER CLOUD & BROADCAST REAL-TIME SYNC ---
-    // Primary: Open cross-device KV buffer endpoint; Secondary: Local BroadcastChannel
-    const CLOUD_ENDPOINT = "https://kvstore.deno.dev/nitc_plaxus_ab204_studio";
-    const broadcast = ('BroadcastChannel' in window) ? new BroadcastChannel('plaxus_channel') : null;
+    // --- 3. LIVE MULTI-USER CLOUD PERSISTENCE ---
+    // Guaranteed free, direct-read JSON buffer powered by Firebase Realtime DB
+    const FIREBASE_DB_URL = "https://plaxus-m25-nitc-default-rtdb.firebaseio.com/studio_state.json";
+    const broadcast = ('BroadcastChannel' in window) ? new BroadcastChannel('plaxus_sync_stream') : null;
 
     if (broadcast) {
       broadcast.onmessage = (event) => {
@@ -1347,7 +1351,7 @@
 
     async function syncDownCloudState() {
       try {
-        const res = await fetch(CLOUD_ENDPOINT, { cache: 'no-store' });
+        const res = await fetch(FIREBASE_DB_URL + '?t=' + Date.now(), { cache: 'no-store' });
         if (!res.ok) return false;
         const data = await res.json();
         if (data && data.scholars && data.scholars.length > 0) {
@@ -1367,7 +1371,7 @@
           return true;
         }
       } catch (e) {
-        // Silent background fallback
+        // Fall back gracefully to local storage
       }
       return false;
     }
@@ -1389,8 +1393,8 @@
       };
 
       try {
-        await fetch(CLOUD_ENDPOINT, {
-          method: 'POST',
+        await fetch(FIREBASE_DB_URL, {
+          method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
@@ -1421,7 +1425,7 @@
       pushCloudState().then(() => alert("Changes forcibly broadcasted to all connected devices."));
     }
 
-    // Auto-poll every 3.5 seconds across all phones and PCs
+    // Auto-poll every 3.5 seconds across all devices
     setInterval(syncDownCloudState, 3500);
 
     // --- 4. CURSOR ENGINE ---
@@ -2110,7 +2114,7 @@
 
       const dList = document.getElementById('deadlines-list-overview');
       if (dList) {
-        dList.innerHTML = deadlines.slice(0, 3).map(d => `
+        dList.innerHTML = deadlines.slice(0, 4).map(d => `
           <div class="entry-card deadline-row-item">
             <div>
               <div class="entry-headline">${escapeHTML(d.title)}</div>
@@ -2760,10 +2764,14 @@
       try { updateCockpitHours(); } catch(e) { console.error('Cockpit render error:', e); }
     }
 
-    // --- 19. STARTUP DISPATCH ---
-    document.addEventListener('DOMContentLoaded', () => {
+    // --- 19. STARTUP & SYNC INITIALIZATION ---
+    document.addEventListener('DOMContentLoaded', async () => {
+      // 1. Render immediately from local memory so there is ZERO screen flicker or reset
       renderEverything();
-      syncDownCloudState();
+
+      // 2. Fetch the latest live cloud state from Firebase in the background
+      await syncDownCloudState();
+
       if (window.location.hash === '#cr-suite') openCRAuthModal();
     });
   </script>
