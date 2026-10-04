@@ -643,6 +643,19 @@
     .form-unit label { display: block; font-size: 0.74rem; color: var(--text-2); margin-bottom: 5px; text-transform: uppercase; font-family: var(--font-biomorph); }
     .input-field { width: 100%; background: rgba(0, 0, 0, 0.45); border: 1px solid var(--card-border); clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%); padding: 9px 12px; color: #fff; font-family: var(--font-body); font-size: 0.84rem; }
     #confetti-canvas { position: fixed; inset: 0; pointer-events: none; z-index: 999; }
+
+    /* ---- Shared-cloud / CR direct-edit additions ---- */
+    .icon-btn { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.14); color: #e2e8f0; padding: 3px 8px; font-size: 0.7rem; cursor: pointer; border-radius: 4px; display: inline-flex; align-items: center; gap: 4px; font-family: var(--font-body); }
+    .icon-btn:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .icon-btn.danger { color: #f43f5e; border-color: rgba(244,63,94,0.4); }
+    .icon-btn.danger:hover { background: #f43f5e; color: #fff; }
+    .cr-row-tools { display: inline-flex; gap: 4px; align-items: center; margin-left: 8px; flex-shrink: 0; }
+    body.cr-mode td.tt-editable { cursor: pointer; outline: 1px dashed rgba(229,115,88,0.0); transition: outline-color .15s, background .15s; }
+    body.cr-mode td.tt-editable:hover { outline-color: rgba(229,115,88,0.8); background: rgba(229,115,88,0.08); }
+    .tt-inline-input { width: 78px; background: #0b0e17; color: #fff; border: 1px solid var(--accent); padding: 4px 6px; font-size: 0.75rem; text-align: center; font-family: var(--font-body); }
+    #plaxus-toast { position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%) translateY(20px); background: #0f172a; border: 1px solid var(--accent); color: #fff; padding: 10px 20px; font-size: 0.82rem; z-index: 20000; opacity: 0; pointer-events: none; transition: opacity .25s, transform .25s; box-shadow: 0 10px 30px rgba(0,0,0,.6); }
+    #plaxus-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    #plaxus-toast.err { border-color: #f43f5e; }
   </style>
 </head>
 <body>
@@ -659,9 +672,9 @@
     
     <!-- EXCLUSIVE CR ACTIVE BANNER (ONLY DISPLAYED ON CR LINK) -->
     <div class="cr-executive-banner" id="cr-top-deck-banner">
-      <div><strong>⚡ AB204 CR EXECUTIVE DESK ACTIVE</strong> — Real-Time Cloud Broadcasting Enabled</div>
+      <div><strong>⚡ AB204 CR EXECUTIVE DESK ACTIVE</strong> — every edit is saved to the cloud and goes live on the class link instantly</div>
       <div style="display:flex; gap:10px;">
-        <button class="btn-editorial" style="background:#000; padding:4px 10px; font-size:0.7rem;" onclick="copyClassShareLink()">🔗 Copy Class Sync Link</button>
+        <button class="btn-editorial" style="background:#000; padding:4px 10px; font-size:0.7rem;" onclick="copyClassShareLink()">🔗 Copy Class Link</button>
         <button class="btn-editorial" style="background:#000; padding:4px 10px; font-size:0.7rem;" onclick="openCRSuiteModal()">⚙ Open CR Suite</button>
       </div>
     </div>
@@ -854,7 +867,7 @@
             <h2 style="font-family:var(--font-serif); font-size:1.75rem; font-weight:700;">Batch M25 Scholar Portfolio Registry</h2>
             <p style="font-size:0.8rem; color:var(--text-2); font-family:var(--font-biomorph);">Contact records, blood registry, and verified scholar credentials</p>
           </div>
-          <div><input type="text" class="input-field" id="search-student" placeholder="Search scholar, roll number, blood group..." oninput="filterScholars()" style="padding:8px 14px; width:260px; font-size:0.82rem;" /></div>
+          <div style="display:flex; gap:10px; align-items:center;"><button class="btn-editorial btn-cr-lock cr-only-btn" onclick="openScholarEditor('')">+ Add Scholar</button><input type="text" class="input-field" id="search-student" placeholder="Search scholar, roll number, blood group..." oninput="filterScholars()" style="padding:8px 14px; width:260px; font-size:0.82rem;" /></div>
         </div>
         <div class="scholar-grid-portfolio" id="scholars-grid"></div>
       </div>
@@ -1011,12 +1024,33 @@
   <div class="modal-backdrop-editorial" id="crAuthModal">
     <div class="modal-box-editorial" style="max-width:400px;">
       <h3 style="font-family:var(--font-serif); font-size:1.3rem; font-weight:700; margin-bottom:8px;">🔒 CR & Admin Suite Access</h3>
-      <p style="font-size:0.78rem; color:var(--text-2); margin-bottom:14px;">Enter CR passcode (default: <code style="color:var(--accent-warm)">m25nitc</code> or <code style="color:var(--accent-warm)">2026</code>)</p>
-      <div class="form-unit"><label>Passcode</label><input type="password" id="cr-passcode-input" class="input-field" placeholder="Enter passcode..." onkeydown="if(event.key==='Enter') verifyCRAuth()" /></div>
+      <p style="font-size:0.78rem; color:var(--text-2); margin-bottom:14px;">Enter the CR passcode to edit the class dashboard. Changes go live for everyone.</p>
+      <div class="form-unit"><label>Passcode</label><input type="password" id="cr-passcode-input" class="input-field" placeholder="Enter passcode..." autocomplete="current-password" onkeydown="if(event.key==='Enter') verifyCRAuth()" /></div>
       <div id="cr-auth-error" style="color:#f43f5e; font-size:0.78rem; display:none; margin-bottom:10px; font-family:monospace;">Incorrect passcode.</div>
       <div style="display:flex; justify-content:flex-end; gap:10px;">
         <button class="btn-editorial" onclick="closeModal('crAuthModal')">Cancel</button>
-        <button class="btn-editorial" onclick="verifyCRAuth()">Unlock</button>
+        <button class="btn-editorial" id="cr-unlock-btn" onclick="verifyCRAuth()">Unlock</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CR SCHOLAR EDITOR (CR link only) -->
+  <div class="modal-backdrop-editorial" id="crScholarModal">
+    <div class="modal-box-editorial" style="max-width:480px;">
+      <h3 style="font-family:var(--font-serif); font-size:1.3rem; font-weight:700; margin-bottom:12px;" id="scholar-editor-heading">Edit Scholar</h3>
+      <input type="hidden" id="cr-scholar-orig" value="" />
+      <div class="form-unit"><label>Full Name</label><input type="text" id="cr-scholar-name" class="input-field" maxlength="80" /></div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+        <div class="form-unit"><label>Roll No.</label><input type="text" id="cr-scholar-roll" class="input-field" maxlength="24" /></div>
+        <div class="form-unit"><label>DOB (DD/MM/YYYY)</label><input type="text" id="cr-scholar-dob" class="input-field" maxlength="12" placeholder="17/12/2001" /></div>
+      </div>
+      <div class="form-unit"><label>Email</label><input type="text" id="cr-scholar-email" class="input-field" maxlength="120" /></div>
+      <div style="display:flex; justify-content:space-between; gap:10px; margin-top:14px;">
+        <button class="btn-editorial" id="cr-scholar-delete-btn" style="color:#f43f5e; display:none;" onclick="removeScholarFromEditor()">🗑 Remove</button>
+        <div style="display:flex; gap:10px; margin-left:auto;">
+          <button class="btn-editorial" onclick="closeModal('crScholarModal')">Cancel</button>
+          <button class="btn-editorial" onclick="saveScholarFromEditor()">Save & Sync</button>
+        </div>
       </div>
     </div>
   </div>
@@ -1088,7 +1122,8 @@
       <!-- Creative Works -->
       <div id="cr-tab-creative" style="display:none;">
         <div style="background:rgba(0,0,0,0.3); padding:18px; border-radius:10px; margin-bottom:18px; border:1px solid var(--card-border);">
-          <h4 style="font-size:0.95rem; margin-bottom:12px; color:var(--accent-warm);">Pin Creative Sheet</h4>
+          <h4 style="font-size:0.95rem; margin-bottom:12px; color:var(--accent-warm);" id="creative-form-heading">Pin Creative Sheet</h4>
+          <input type="hidden" id="cr-creative-id" value="" />
           <div class="form-unit"><label>Title</label><input type="text" id="cr-creative-title" class="input-field" placeholder="Title..." /></div>
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
             <div class="form-unit"><label>Author</label><input type="text" id="cr-creative-author" class="input-field" placeholder="Author..." /></div>
@@ -1096,7 +1131,7 @@
           </div>
           <div class="form-unit"><label>Image URL</label><input type="text" id="cr-creative-image" class="input-field" placeholder="https://..." /></div>
           <div class="form-unit"><label>Description</label><textarea id="cr-creative-desc" class="input-field" rows="2" placeholder="Note..."></textarea></div>
-          <div style="display:flex; justify-content:flex-end;"><button class="btn-editorial" onclick="saveCreativeWork()">Pin Work & Sync</button></div>
+          <div style="display:flex; gap:10px; justify-content:flex-end;"><button class="btn-editorial" style="background:transparent; display:none;" id="cancel-creative-edit-btn" onclick="resetCreativeForm()">Clear</button><button class="btn-editorial" id="save-creative-btn" onclick="saveCreativeWork()">Pin Work & Sync</button></div>
         </div>
         <div id="cr-creative-list-manager" style="max-height:220px; overflow-y:auto;"></div>
       </div>
@@ -1104,14 +1139,15 @@
       <!-- Class Blogs -->
       <div id="cr-tab-blogs" style="display:none;">
         <div style="background:rgba(0,0,0,0.3); padding:18px; border-radius:10px; margin-bottom:18px; border:1px solid var(--card-border);">
-          <h4 style="font-size:0.95rem; margin-bottom:12px; color:var(--accent-warm);">Publish Article</h4>
+          <h4 style="font-size:0.95rem; margin-bottom:12px; color:var(--accent-warm);" id="blog-form-heading">Publish Article</h4>
+          <input type="hidden" id="cr-blog-id" value="" />
           <div class="form-unit"><label>Title</label><input type="text" id="cr-blog-title" class="input-field" placeholder="Headline..." /></div>
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
             <div class="form-unit"><label>Author</label><input type="text" id="cr-blog-author" class="input-field" placeholder="Author..." /></div>
             <div class="form-unit"><label>Topic Tag</label><input type="text" id="cr-blog-tag" class="input-field" placeholder="Tag..." /></div>
           </div>
           <div class="form-unit"><label>Body Content</label><textarea id="cr-blog-body" class="input-field" rows="4" placeholder="Essay..."></textarea></div>
-          <div style="display:flex; justify-content:flex-end;"><button class="btn-editorial" onclick="saveBlogPost()">Publish & Sync</button></div>
+          <div style="display:flex; gap:10px; justify-content:flex-end;"><button class="btn-editorial" style="background:transparent; display:none;" id="cancel-blog-edit-btn" onclick="resetBlogForm()">Clear</button><button class="btn-editorial" id="save-blog-btn" onclick="saveBlogPost()">Publish & Sync</button></div>
         </div>
         <div id="cr-blogs-list-manager" style="max-height:220px; overflow-y:auto;"></div>
       </div>
@@ -1157,10 +1193,10 @@
       <div id="cr-tab-broadcast" style="display:none;">
         <div style="background:rgba(0,0,0,0.3); padding:18px; border-radius:10px; border:1px solid var(--card-border);">
           <h4 style="font-size:1.05rem; margin-bottom:10px; color:#4ade80;">📢 Instant Class Sharing & WhatsApp Broadcast</h4>
-          <p style="font-size:0.75rem; color:var(--text-2); margin-bottom:12px;">Generates a live synchronization dispatch for classmates. When students open this link on their phones or PCs, it automatically loads all updated notices, timetable slots, and deadlines.</p>
+          <p style="font-size:0.75rem; color:var(--text-2); margin-bottom:12px;">The class link always shows the latest data you save here, on every phone and PC, with no need to re-share. Use this to nudge classmates on WhatsApp.</p>
           <div class="form-unit"><textarea id="cr-wa-preview-text" class="input-field" rows="6"></textarea></div>
           <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px; gap:8px;">
-            <button class="btn-editorial" onclick="copyClassShareLink()">🔗 Copy Class Sync Link</button>
+            <button class="btn-editorial" onclick="copyClassShareLink()">🔗 Copy Class Link</button>
             <button class="btn-editorial btn-whatsapp" onclick="dispatchWhatsAppFromCR()">🚀 Send WhatsApp Broadcast</button>
           </div>
         </div>
@@ -1170,7 +1206,7 @@
       <div id="cr-tab-settings" style="display:none;">
         <div class="form-unit"><label>Marquee Dispatch Text</label><input type="text" id="cr-marquee-input" class="input-field" /></div>
         <div class="form-unit"><label>Wallpaper URL</label><input type="text" id="cr-wallpaper-url" class="input-field" placeholder="https://..." /></div>
-        <div class="form-unit"><label>CR Passcode</label><input type="text" id="cr-new-passcode" class="input-field" placeholder="Change passcode..." /></div>
+        <div class="form-unit"><label>New CR Passcode (leave blank to keep current)</label><input type="password" id="cr-new-passcode" class="input-field" placeholder="At least 4 characters..." autocomplete="new-password" /></div>
         <button class="btn-editorial" onclick="saveCRSettings()">Apply Settings</button>
       </div>
     </div>
@@ -1338,162 +1374,311 @@
       { id: 4, title: "PS-III Studio Progress Review", subject: "PS-III", date: "2026-10-09", desc: "Full corridor development model review with jury." }
     ];
 
-    // --- 2. RESILIENT LOCAL STORAGE ENGINE ---
-    function safeLoad(key, defaults) {
-      try {
-        const raw = localStorage.getItem(key);
-        if (!raw) {
-          localStorage.setItem(key, JSON.stringify(defaults));
-          return defaults;
-        }
-        const val = JSON.parse(raw);
-        if (Array.isArray(defaults)) {
-          if (!Array.isArray(val) || val.length === 0) {
-            localStorage.setItem(key, JSON.stringify(defaults));
-            return defaults;
-          }
-        }
-        return val;
-      } catch (e) {
-        localStorage.setItem(key, JSON.stringify(defaults));
-        return defaults;
-      }
-    }
-
-    let scholars = safeLoad('plaxus_scholars', defaultScholars);
-    let timetable = safeLoad('plaxus_timetable', defaultTimetable);
-    let guidelines = safeLoad('plaxus_guidelines', defaultGuidelines);
-    let creativeWorks = safeLoad('plaxus_creative_works', defaultCreativeWorks);
-    let classBlogs = safeLoad('plaxus_class_blogs', defaultClassBlogs);
-    let suggestions = safeLoad('plaxus_suggestions', defaultSuggestions);
-    let announcements = safeLoad('plaxus_announcements', defaultAnnouncements);
-    let deadlines = safeLoad('plaxus_deadlines', defaultDeadlines);
-
-    let crPasscode = localStorage.getItem('plaxus_cr_passcode') || "m25nitc";
-    let marqueeText = localStorage.getItem('plaxus_marquee') || "World Habitat Day on 05-10-26, 10 AM onwards • Conference Hall • Department of Architecture & Planning, NIT Calicut";
-    let classPhoto = localStorage.getItem('plaxus_class_photo') || "";
-    let userBg = localStorage.getItem('plaxus_user_bg') || "";
-    let lastLocalEditTimestamp = parseInt(localStorage.getItem('plaxus_last_timestamp') || '0', 10);
-
-    // --- 3. DUAL-LINK ROLE DETECTION ---
+    // --- 2. SHARED CLOUD STATE ENGINE ---
+    // The master copy of every piece of data lives on the server (/api).
+    // The class link and the CR link both READ it. Only the CR link can WRITE
+    // CR-owned content (passcode is verified on the server), so every CR edit is
+    // visible to the whole class automatically — no re-sharing needed.
     const urlParams = new URLSearchParams(window.location.search);
     const isCRMode = (urlParams.get('role') === 'cr' || window.location.hash.includes('cr-suite'));
+    const DEFAULT_MARQUEE = "World Habitat Day on 05-10-26, 10 AM onwards • Conference Hall • Department of Architecture & Planning, NIT Calicut";
+    const CACHE_KEY = 'plaxus_cache_v2';
+    const POLL_MS = 12000;
 
+    function readCache() {
+      try { const r = localStorage.getItem(CACHE_KEY); return r ? JSON.parse(r) : null; } catch (e) { return null; }
+    }
+    function writeCache(st) {
+      try { localStorage.setItem(CACHE_KEY, JSON.stringify(st)); } catch (e) { /* quota: ignore */ }
+    }
+    // CR link only: if this browser holds data saved by the OLD version, use it to seed the cloud once.
+    function readLegacyLocal() {
+      if (!isCRMode) return null;
+      try {
+        const j = (k) => { const r = localStorage.getItem(k); return r ? JSON.parse(r) : undefined; };
+        const st = {
+          scholars: j('plaxus_scholars'), timetable: j('plaxus_timetable'), guidelines: j('plaxus_guidelines'),
+          creativeWorks: j('plaxus_creative_works'), classBlogs: j('plaxus_class_blogs'), suggestions: j('plaxus_suggestions'),
+          announcements: j('plaxus_announcements'), deadlines: j('plaxus_deadlines'),
+          marqueeText: localStorage.getItem('plaxus_marquee') || undefined,
+          userBg: localStorage.getItem('plaxus_user_bg') || undefined,
+          classPhoto: localStorage.getItem('plaxus_class_photo') || undefined
+        };
+        return Object.values(st).some(v => v !== undefined) ? st : null;
+      } catch (e) { return null; }
+    }
+
+    const _boot = readCache() || readLegacyLocal() || {};
+    const _arr = (v, d) => (Array.isArray(v) ? v : d);
+    let scholars = _arr(_boot.scholars, defaultScholars);
+    let timetable = (_boot.timetable && typeof _boot.timetable === 'object') ? _boot.timetable : defaultTimetable;
+    let guidelines = _arr(_boot.guidelines, defaultGuidelines);
+    let creativeWorks = _arr(_boot.creativeWorks, defaultCreativeWorks);
+    let classBlogs = _arr(_boot.classBlogs, defaultClassBlogs);
+    let suggestions = _arr(_boot.suggestions, defaultSuggestions);
+    let announcements = _arr(_boot.announcements, defaultAnnouncements);
+    let deadlines = _arr(_boot.deadlines, defaultDeadlines);
+    let marqueeText = (typeof _boot.marqueeText === 'string' && _boot.marqueeText) ? _boot.marqueeText : DEFAULT_MARQUEE;
+    let userBg = typeof _boot.userBg === 'string' ? _boot.userBg : '';
+    let classPhoto = typeof _boot.classPhoto === 'string' ? _boot.classPhoto : '';
+
+    let stateVersion = 0;
+    let serverEmpty = false;
+    let loadingState = false;
+    let crPass = isCRMode ? (sessionStorage.getItem('plaxus_cr_pass') || '') : '';
+
+    function currentStateObject() {
+      return {
+        scholars: scholars.map(s => (s.photo && s.photo.length > 70000) ? Object.assign({}, s, { photo: undefined }) : s),
+        timetable, guidelines, creativeWorks, classBlogs, suggestions, announcements, deadlines,
+        marqueeText, userBg, classPhoto: classPhoto.length > 1100000 ? '' : classPhoto
+      };
+    }
+
+    function applyState(st) {
+      if (!st) return;
+      if (Array.isArray(st.scholars)) scholars = st.scholars;
+      if (st.timetable && typeof st.timetable === 'object') timetable = st.timetable;
+      if (Array.isArray(st.guidelines)) guidelines = st.guidelines;
+      if (Array.isArray(st.creativeWorks)) creativeWorks = st.creativeWorks;
+      if (Array.isArray(st.classBlogs)) classBlogs = st.classBlogs;
+      if (Array.isArray(st.suggestions)) suggestions = st.suggestions;
+      if (Array.isArray(st.announcements)) announcements = st.announcements;
+      if (Array.isArray(st.deadlines)) deadlines = st.deadlines;
+      if (typeof st.marqueeText === 'string' && st.marqueeText) marqueeText = st.marqueeText;
+      if (typeof st.userBg === 'string') userBg = st.userBg;
+      if (typeof st.classPhoto === 'string') classPhoto = st.classPhoto;
+      if (st.version) stateVersion = st.version;
+      writeCache(st);
+    }
+
+    function setSync(mode) {
+      const el = document.getElementById('sync-status-indicator');
+      if (!el) return;
+      const t = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const map = {
+        ok: ['#22c55e', `● LIVE • SYNCED ${t}`],
+        empty: ['#eab308', isCRMode ? '● CLOUD EMPTY — UNLOCK TO PUBLISH' : '● AWAITING FIRST CR PUBLISH'],
+        offline: ['#eab308', '● OFFLINE — SHOWING LAST SAVED'],
+        nobackend: ['#f43f5e', '● CLOUD NOT CONNECTED']
+      };
+      const m = map[mode] || map.ok;
+      el.style.color = m[0];
+      el.textContent = m[1];
+    }
+
+    let _toastTimer = null;
+    function toast(msg, isErr) {
+      let t = document.getElementById('plaxus-toast');
+      if (!t) { t = document.createElement('div'); t.id = 'plaxus-toast'; document.body.appendChild(t); }
+      t.textContent = msg;
+      t.className = (isErr ? 'err ' : '') + 'show';
+      clearTimeout(_toastTimer);
+      _toastTimer = setTimeout(() => { t.className = isErr ? 'err' : ''; }, 3200);
+    }
+
+    async function loadState(force = false) {
+      if (loadingState) return;
+      loadingState = true;
+      try {
+        let res;
+        try {
+          res = await fetch(`/api/state?v=${force ? 0 : stateVersion}&t=${Date.now()}`, { cache: 'no-store' });
+        } catch (netErr) { setSync('offline'); return; }
+        const ct = res.headers.get('content-type') || '';
+        if (!res.ok || !ct.includes('json')) { setSync('nobackend'); return; }
+        const data = await res.json();
+        if (data.empty) {
+          serverEmpty = true;
+          setSync('empty');
+          if (isCRMode && crPass) await seedServer();
+          return;
+        }
+        serverEmpty = false;
+        if (data.unchanged) { setSync('ok'); return; }
+        applyState(data.state);
+        renderEverything();
+        refreshCRManagers();
+        setSync('ok');
+      } catch (e) {
+        setSync('nobackend');
+      } finally {
+        loadingState = false;
+      }
+    }
+
+    async function seedServer() {
+      try {
+        const res = await fetch('/api/cr', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'x-cr-passcode': encodeURIComponent(crPass) },
+          body: JSON.stringify({ op: 'seed', state: currentStateObject() })
+        });
+        const data = await res.json().catch(() => null);
+        if (res.status === 401) { forgetCR(); return; }
+        if (res.ok && data && data.state) {
+          serverEmpty = false;
+          applyState(data.state);
+          renderEverything();
+          setSync('ok');
+          toast('Cloud database initialised — class link is now live ✓');
+        } else {
+          setSync('nobackend');
+        }
+      } catch (e) { setSync('offline'); }
+    }
+
+    function userIsBusy() {
+      const modalOpen = Array.from(document.querySelectorAll('.modal-backdrop-editorial')).some(m => m.style.display === 'flex');
+      if (modalOpen) return true;
+      const a = document.activeElement;
+      return !!(a && /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName) && a.id !== 'search-student');
+    }
+
+    function startLivePolling() {
+      loadState(true);
+      setInterval(() => { if (!document.hidden && !userIsBusy()) loadState(); }, POLL_MS);
+      document.addEventListener('visibilitychange', () => { if (!document.hidden && !userIsBusy()) loadState(); });
+      window.addEventListener('focus', () => { if (!userIsBusy()) loadState(); });
+      window.addEventListener('online', () => loadState(true));
+    }
+
+    // ---- network helpers ----
+    async function postJSON(path, body, headers) {
+      let res;
+      try {
+        res = await fetch(path, { method: 'POST', headers: Object.assign({ 'Content-Type': 'application/json' }, headers || {}), body: JSON.stringify(body) });
+      } catch (e) { throw new Error('You appear to be offline. Please try again.'); }
+      const data = await res.json().catch(() => null);
+      return { res, data };
+    }
+
+    // Public actions (likes, suggestions, replies, scholar self-service) — no passcode.
+    async function actCall(body) {
+      if (serverEmpty) throw new Error('The CR has not published the dashboard yet.');
+      const { res, data } = await postJSON('/api/act', body);
+      if (res.status === 404) throw new Error('Cloud backend is not connected yet.');
+      if (!res.ok || !data || !data.state) throw new Error((data && data.error) || 'Server error');
+      applyState(data.state);
+      setSync('ok');
+      return data.state;
+    }
+
+    // CR actions — passcode verified on the server for every single write.
+    async function crCall(body) {
+      if (!crPass) { openCRAuthModal(); throw new Error('Please unlock the CR desk first.'); }
+      const { res, data } = await postJSON('/api/cr', body, { 'x-cr-passcode': encodeURIComponent(crPass) });
+      if (res.status === 401) { forgetCR(); openCRAuthModal(); throw new Error('Passcode rejected or changed. Please unlock again.'); }
+      if (res.status === 404) throw new Error('Cloud backend is not connected yet.');
+      if (!res.ok || !data) throw new Error((data && data.error) || 'Server error');
+      if (data.state) { applyState(data.state); setSync('ok'); }
+      return data;
+    }
+
+    function forgetCR() { crPass = ''; sessionStorage.removeItem('plaxus_cr_pass'); }
+    function ensureCR() { if (crPass) return true; openCRAuthModal(); return false; }
+
+    function readSection(k) {
+      switch (k) {
+        case 'timetable': return timetable;
+        case 'guidelines': return guidelines;
+        case 'creativeWorks': return creativeWorks;
+        case 'classBlogs': return classBlogs;
+        case 'announcements': return announcements;
+        case 'deadlines': return deadlines;
+        case 'marqueeText': return marqueeText;
+        case 'userBg': return userBg;
+        case 'classPhoto': return classPhoto;
+        default: return undefined;
+      }
+    }
+
+    // Save one or more CR-owned sections to the cloud. Rolls back to server truth on failure.
+    async function crSave(keys, okMessage) {
+      const sections = {};
+      keys.forEach(k => { sections[k] = readSection(k); });
+      try {
+        await crCall({ op: 'save', sections });
+        renderEverything();
+        refreshCRManagers();
+        toast(okMessage || 'Saved — live for the whole class ✓');
+        return true;
+      } catch (e) {
+        toast(e.message || 'Could not save', true);
+        await loadState(true);
+        return false;
+      }
+    }
+
+    // Generic CR operation (delete suggestion, scholar edits, ...).
+    async function crOp(body, okMessage) {
+      try {
+        await crCall(body);
+        renderEverything();
+        refreshCRManagers();
+        toast(okMessage || 'Saved — live for the whole class ✓');
+        return true;
+      } catch (e) {
+        toast(e.message || 'Could not save', true);
+        return false;
+      }
+    }
+
+    function refreshCRManagers() {
+      if (!isCRMode) return;
+      const m = document.getElementById('crSuiteModal');
+      if (!m || m.style.display !== 'flex') return;
+      renderCRDeadlinesManager(); renderCRGuidelinesManager(); renderCRCreativeManager();
+      renderCRBlogsManager(); renderCRSuggestionsManager(); renderCRNoticesManager();
+    }
+
+    // ---- role handling: the class link has NO CR UI at all (it is removed from the page) ----
     function applyRolePermissions() {
-      const topBanner = document.getElementById('cr-top-deck-banner');
-      const headerControls = document.getElementById('header-cr-controls');
-      const crOnlyButtons = document.querySelectorAll('.cr-only-btn');
-
       if (isCRMode) {
+        document.body.classList.add('cr-mode');
+        const topBanner = document.getElementById('cr-top-deck-banner');
+        const headerControls = document.getElementById('header-cr-controls');
         if (topBanner) topBanner.style.display = 'flex';
         if (headerControls) headerControls.style.display = 'flex';
-        crOnlyButtons.forEach(btn => btn.style.display = 'inline-flex');
+        document.querySelectorAll('.cr-only-btn').forEach(btn => btn.style.display = 'inline-flex');
       } else {
-        if (topBanner) topBanner.style.display = 'none';
-        if (headerControls) headerControls.style.display = 'none';
-        crOnlyButtons.forEach(btn => btn.style.display = 'none');
+        document.querySelectorAll('.cr-only-btn, #cr-top-deck-banner, #header-cr-controls, #crAuthModal, #crSuiteModal, #crScholarModal').forEach(el => el.remove());
       }
     }
 
-    // --- 4. RELIABLE SYNC & STATE BROADCAST ENGINE ---
-    // Reads URL-compressed state token on student click
-    function checkIncomingUrlHash() {
-      if (window.location.hash && window.location.hash.startsWith('#sync=')) {
-        try {
-          const raw = decodeURIComponent(escape(atob(window.location.hash.replace('#sync=', ''))));
-          const state = JSON.parse(raw);
-          applyRemoteState(state, true);
-          window.history.replaceState(null, '', window.location.pathname + (isCRMode ? '?role=cr' : ''));
-        } catch(e){}
-      }
-    }
-    checkIncomingUrlHash();
-
-    function applyRemoteState(data, force = false) {
-      if (!data) return;
-      if (!force && data.time && data.time <= lastLocalEditTimestamp) return;
-
-      if (data.scholars && data.scholars.length) scholars = data.scholars;
-      if (data.timetable) timetable = data.timetable;
-      if (data.guidelines && data.guidelines.length) guidelines = data.guidelines;
-      if (data.creativeWorks && data.creativeWorks.length) creativeWorks = data.creativeWorks;
-      if (data.classBlogs && data.classBlogs.length) classBlogs = data.classBlogs;
-      if (data.suggestions && data.suggestions.length) suggestions = data.suggestions;
-      if (data.announcements && data.announcements.length) announcements = data.announcements;
-      if (data.deadlines && data.deadlines.length) deadlines = data.deadlines;
-      if (data.marqueeText) marqueeText = data.marqueeText;
-      if (data.time) {
-        lastLocalEditTimestamp = data.time;
-        localStorage.setItem('plaxus_last_timestamp', String(data.time));
-      }
-
-      pushGlobalState(false);
-      renderEverything();
-      const syncEl = document.getElementById('sync-status-indicator');
-      if (syncEl) syncEl.textContent = "● LIVE SYNC ACTIVE";
-    }
-
-    function pushGlobalState(broadcast = true) {
-      try {
-        const timestamp = Date.now();
-        if (broadcast) {
-          lastLocalEditTimestamp = timestamp;
-          localStorage.setItem('plaxus_last_timestamp', String(timestamp));
-        }
-
-        localStorage.setItem('plaxus_scholars', JSON.stringify(scholars));
-        localStorage.setItem('plaxus_timetable', JSON.stringify(timetable));
-        localStorage.setItem('plaxus_guidelines', JSON.stringify(guidelines));
-        localStorage.setItem('plaxus_creative_works', JSON.stringify(creativeWorks));
-        localStorage.setItem('plaxus_class_blogs', JSON.stringify(classBlogs));
-        localStorage.setItem('plaxus_suggestions', JSON.stringify(suggestions));
-        localStorage.setItem('plaxus_announcements', JSON.stringify(announcements));
-        localStorage.setItem('plaxus_deadlines', JSON.stringify(deadlines));
-
-        // Sync via window broadcast channel if open across local browser tabs
-        if (window.BroadcastChannel) {
-          const bc = new BroadcastChannel('plaxus_internal_bus');
-          bc.postMessage({ type: 'SYNC', time: timestamp });
-        }
-      } catch (e) {
-        console.error("Storage write error:", e);
-      }
-    }
-
-    if (window.BroadcastChannel) {
-      const bc = new BroadcastChannel('plaxus_internal_bus');
-      bc.onmessage = () => {
-        scholars = safeLoad('plaxus_scholars', defaultScholars);
-        timetable = safeLoad('plaxus_timetable', defaultTimetable);
-        guidelines = safeLoad('plaxus_guidelines', defaultGuidelines);
-        creativeWorks = safeLoad('plaxus_creative_works', defaultCreativeWorks);
-        classBlogs = safeLoad('plaxus_class_blogs', defaultClassBlogs);
-        suggestions = safeLoad('plaxus_suggestions', defaultSuggestions);
-        announcements = safeLoad('plaxus_announcements', defaultAnnouncements);
-        deadlines = safeLoad('plaxus_deadlines', defaultDeadlines);
-        renderEverything();
-      };
-    }
-
-    function generateShareableClassUrl() {
-      const payload = {
-        scholars, timetable, guidelines, creativeWorks,
-        classBlogs, suggestions, announcements, deadlines,
-        marqueeText, time: Date.now()
-      };
-      const b64 = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
-      const baseUrl = "https://plaxusdb26.netlify.app/";
-      return `${baseUrl}#sync=${b64}`;
-    }
+    // Plain class link (never contains CR access or data blobs).
+    function classLinkUrl() { return window.location.origin + window.location.pathname; }
 
     function copyClassShareLink() {
-      const link = generateShareableClassUrl();
+      const link = classLinkUrl();
       navigator.clipboard.writeText(link).then(() => {
-        alert("Class Sync Link copied! Share this link to WhatsApp so any student who taps it receives the exact updated dashboard on their phone or PC.");
-      }).catch(() => {
-        prompt("Copy this direct class sync link:", link);
+        toast('Class link copied — it always shows the latest data ✓');
+      }).catch(() => { prompt('Copy the class link:', link); });
+    }
+
+    // ---- helpers ----
+    function safeUrl(u) { return (typeof u === 'string' && /^(https?:\/\/|data:image\/)/i.test(u)) ? u : ''; }
+    function resizeImageFile(file, maxDim, quality) {
+      return new Promise((resolve, reject) => {
+        const fr = new FileReader();
+        fr.onerror = reject;
+        fr.onload = () => {
+          const img = new Image();
+          img.onerror = reject;
+          img.onload = () => {
+            const k = Math.min(1, maxDim / Math.max(img.width, img.height));
+            const w = Math.max(1, Math.round(img.width * k)), h = Math.max(1, Math.round(img.height * k));
+            const c = document.createElement('canvas');
+            c.width = w; c.height = h;
+            c.getContext('2d').drawImage(img, 0, 0, w, h);
+            resolve(c.toDataURL('image/jpeg', quality));
+          };
+          img.src = fr.result;
+        };
+        fr.readAsDataURL(file);
       });
     }
+    const crTools = (editCall, delCall) => isCRMode ? `<span class="cr-row-tools"><button class="icon-btn cr-only-btn" title="Edit" onclick="${editCall}">✏</button><button class="icon-btn danger cr-only-btn" title="Delete" onclick="${delCall}">🗑</button></span>` : '';
 
     // --- 5. CURSOR ENGINE ---
     const cursorDot = document.getElementById('cursor-dot');
@@ -1730,7 +1915,7 @@
         const slots = timetable[day] || defaultTimetable[day];
         let rowHtml = `<td class="col-day">${day}</td>`;
 
-        slots.forEach(slot => {
+        slots.forEach((slot, idx) => {
           let badgeClass = 'c-badge';
           if (slot.includes('RMP')) badgeClass += ' c-rmp';
           else if (slot.includes('PS-III')) badgeClass += ' c-ps3';
@@ -1741,11 +1926,42 @@
           else if (slot.includes('TAD')) badgeClass += ' c-tad';
           else if (slot === 'LB') badgeClass += ' c-lb';
 
-          rowHtml += `<td>${slot === '-' ? '-' : `<span class="${badgeClass}">${slot}</span>`}</td>`;
+          const editAttrs = isCRMode ? ` class="tt-editable" data-day="${day}" data-idx="${idx}" title="Click to edit this slot" onclick="editTimetableCell(this)"` : '';
+          rowHtml += `<td${editAttrs}>${slot === '-' ? '-' : `<span class="${badgeClass}">${escapeHTML(slot)}</span>`}</td>`;
         });
         tr.innerHTML = rowHtml;
         tbody.appendChild(tr);
       });
+    }
+
+    // CR: click any timetable cell to edit it in place.
+    function editTimetableCell(td) {
+      if (!ensureCR()) return;
+      if (td.querySelector('input')) return;
+      const day = td.dataset.day, idx = parseInt(td.dataset.idx, 10);
+      const slots = (timetable[day] || defaultTimetable[day]).slice();
+      const cur = slots[idx];
+      td.innerHTML = `<input class="tt-inline-input" type="text" maxlength="40" value="${escapeHTML(cur)}" />`;
+      const inp = td.querySelector('input');
+      inp.focus(); inp.select();
+      let done = false;
+      const finish = async (save) => {
+        if (done) return; done = true;
+        const v = inp.value.trim() || '-';
+        if (save && v !== cur) {
+          slots[idx] = v;
+          timetable[day] = slots;
+          await crSave(['timetable'], 'Timetable updated for everyone ✓');
+        } else {
+          renderTimetable();
+        }
+        updateCockpitHours();
+      };
+      inp.addEventListener('keydown', e => {
+        if (e.key === 'Enter') { e.preventDefault(); finish(true); }
+        else if (e.key === 'Escape') { finish(false); }
+      });
+      inp.addEventListener('blur', () => finish(true));
     }
 
     function setTimetableView(view, btn) {
@@ -1756,48 +1972,52 @@
     }
 
     // --- 10. SCHOLARS REGISTRY ---
-    function renderScholars(list = scholars) {
+    function renderScholars() {
       const container = document.getElementById('scholars-grid');
       if (!container) return;
+      const q = ((document.getElementById('search-student') || {}).value || '').toLowerCase();
+      const list = q ? scholars.filter(s =>
+        (s.name || '').toLowerCase().includes(q) ||
+        (s.roll || '').toLowerCase().includes(q) ||
+        (s.blood && s.blood.toLowerCase().includes(q)) ||
+        (s.phone && s.phone.includes(q))
+      ) : scholars;
       container.innerHTML = '';
-      list.forEach((scholar, index) => {
+      list.forEach((scholar) => {
         const card = document.createElement('div');
         card.className = 'mag-plate scholar-plate';
-        const initial = scholar.name ? scholar.name.charAt(0) : '?';
-        const avatarContent = scholar.photo 
-          ? `<img src="${scholar.photo}" alt="${scholar.name}" />`
+        const initial = scholar.name ? escapeHTML(scholar.name.charAt(0)) : '?';
+        const photo = safeUrl(scholar.photo);
+        const avatarContent = photo
+          ? `<img src="${photo}" alt="${escapeHTML(scholar.name)}" />`
           : `<span class="scholar-avatar-init">${initial}</span>`;
+        const bloodOptions = ['A+','A-','B+','B-','O+','O-','AB+','AB-'].map(b => `<option value="${b}" ${scholar.blood === b ? 'selected' : ''}>${b}</option>`).join('');
+        const phoneDigits = (scholar.phone || '').replace(/[^0-9]/g, '');
 
         card.innerHTML = `
           <div style="display:flex; gap:14px; align-items:center;">
-            <div class="scholar-avatar-frame" onclick="triggerScholarPhotoUpload(${index})" title="Tap to upload photo">
+            <div class="scholar-avatar-frame" data-roll="${escapeHTML(scholar.roll)}" onclick="triggerScholarPhotoUpload(this.dataset.roll)" title="Tap to upload photo">
               ${avatarContent}
             </div>
             <div style="flex:1; min-width:0;">
-              <div class="scholar-plate-name" title="${scholar.name}">${scholar.name}</div>
-              <div style="font-family:var(--font-biomorph); font-size:0.75rem; color:var(--accent-warm);">${scholar.roll}</div>
+              <div class="scholar-plate-name" title="${escapeHTML(scholar.name)}">${escapeHTML(scholar.name)}</div>
+              <div style="font-family:var(--font-biomorph); font-size:0.75rem; color:var(--accent-warm);">${escapeHTML(scholar.roll)}</div>
             </div>
+            ${isCRMode ? `<button class="icon-btn cr-only-btn" data-roll="${escapeHTML(scholar.roll)}" title="Edit scholar" onclick="openScholarEditor(this.dataset.roll)">✏</button>` : ''}
           </div>
           <div style="font-size:0.78rem; color:var(--text-2); display:flex; flex-direction:column; gap:3px;">
-            <div>🎂 <strong>DOB:</strong> ${scholar.dob}</div>
-            <div style="font-family:monospace; font-size:0.72rem;">${scholar.email}</div>
+            <div>🎂 <strong>DOB:</strong> ${escapeHTML(scholar.dob)}</div>
+            <div style="font-family:monospace; font-size:0.72rem;">${escapeHTML(scholar.email)}</div>
           </div>
           <div style="display:grid; grid-template-columns:1fr 1.2fr; gap:8px; align-items:center; padding-top:8px; border-top:1px solid rgba(255,255,255,0.06);">
-            <select class="input-field" style="padding:6px 8px; font-size:0.75rem;" onchange="updateScholarBlood(${index}, this.value)">
+            <select class="input-field" style="padding:6px 8px; font-size:0.75rem;" data-roll="${escapeHTML(scholar.roll)}" onchange="updateScholarBlood(this.dataset.roll, this.value)">
               <option value="" ${!scholar.blood ? 'selected' : ''}>Blood Group</option>
-              <option value="A+" ${scholar.blood === 'A+' ? 'selected' : ''}>A+</option>
-              <option value="A-" ${scholar.blood === 'A-' ? 'selected' : ''}>A-</option>
-              <option value="B+" ${scholar.blood === 'B+' ? 'selected' : ''}>B+</option>
-              <option value="B-" ${scholar.blood === 'B-' ? 'selected' : ''}>B-</option>
-              <option value="O+" ${scholar.blood === 'O+' ? 'selected' : ''}>O+</option>
-              <option value="O-" ${scholar.blood === 'O-' ? 'selected' : ''}>O-</option>
-              <option value="AB+" ${scholar.blood === 'AB+' ? 'selected' : ''}>AB+</option>
-              <option value="AB-" ${scholar.blood === 'AB-' ? 'selected' : ''}>AB-</option>
+              ${bloodOptions}
             </select>
-            <input type="tel" class="input-field" style="padding:6px 8px; font-size:0.75rem;" placeholder="Phone" value="${scholar.phone || ''}" onchange="updateScholarPhone(${index}, this.value)" />
+            <input type="tel" class="input-field" style="padding:6px 8px; font-size:0.75rem;" placeholder="Phone" maxlength="20" value="${escapeHTML(scholar.phone || '')}" data-roll="${escapeHTML(scholar.roll)}" onchange="updateScholarPhone(this.dataset.roll, this.value)" />
           </div>
-          ${scholar.phone ? `
-            <a href="https://wa.me/${scholar.phone.replace(/[^0-9]/g, '')}" target="_blank" class="btn-editorial btn-whatsapp" style="padding:4px 8px; font-size:0.72rem; justify-content:center; margin-top:2px;">
+          ${phoneDigits ? `
+            <a href="https://wa.me/${phoneDigits}" target="_blank" rel="noopener" class="btn-editorial btn-whatsapp" style="padding:4px 8px; font-size:0.72rem; justify-content:center; margin-top:2px;">
               💬 Direct WhatsApp
             </a>
           ` : ''}
@@ -1805,47 +2025,70 @@
         container.appendChild(card);
       });
       document.getElementById('scholar-badge-count').textContent = scholars.length;
+      if (isCRMode) applyRolePermissions();
     }
 
-    function updateScholarBlood(index, val) {
-      scholars[index].blood = val;
-      pushGlobalState();
-      updateBlinkingRemindersMarquee();
+    async function updateScholarBlood(roll, val) {
+      try { await actCall({ op: 'scholar_update', roll, blood: val }); updateBlinkingRemindersMarquee(); toast('Saved ✓'); }
+      catch (e) { toast(e.message, true); renderScholars(); }
     }
 
-    function updateScholarPhone(index, val) {
-      scholars[index].phone = val.trim();
-      pushGlobalState();
+    async function updateScholarPhone(roll, val) {
+      try { await actCall({ op: 'scholar_update', roll, phone: val.trim() }); renderScholars(); toast('Saved ✓'); }
+      catch (e) { toast(e.message, true); renderScholars(); }
     }
 
-    function triggerScholarPhotoUpload(index) {
+    function triggerScholarPhotoUpload(roll) {
       const input = document.createElement('input');
       input.type = 'file';
       input.accept = 'image/*';
-      input.onchange = (e) => {
+      input.onchange = async (e) => {
         const file = e.target.files[0];
         if (!file) return;
-        const reader = new FileReader();
-        reader.onload = (re) => {
-          scholars[index].photo = re.target.result;
-          pushGlobalState();
+        try {
+          const photo = await resizeImageFile(file, 200, 0.72);
+          await actCall({ op: 'scholar_update', roll, photo });
           renderScholars();
           updateBirthdaySpotlight();
-        };
-        reader.readAsDataURL(file);
+          toast('Photo saved ✓');
+        } catch (err) { toast(err.message || 'Could not upload photo', true); }
       };
       input.click();
     }
 
-    function filterScholars() {
-      const q = (document.getElementById('search-student').value || '').toLowerCase();
-      const filtered = scholars.filter(s => 
-        s.name.toLowerCase().includes(q) || 
-        s.roll.toLowerCase().includes(q) || 
-        (s.blood && s.blood.toLowerCase().includes(q)) ||
-        (s.phone && s.phone.includes(q))
-      );
-      renderScholars(filtered);
+    function filterScholars() { renderScholars(); }
+
+    // ---- CR: scholar roster editing ----
+    function openScholarEditor(roll) {
+      if (!ensureCR()) return;
+      const s = roll ? scholars.find(x => x.roll === roll) : null;
+      document.getElementById('scholar-editor-heading').textContent = s ? 'Edit Scholar' : 'Add Scholar';
+      document.getElementById('cr-scholar-orig').value = s ? s.roll : '';
+      document.getElementById('cr-scholar-name').value = s ? s.name : '';
+      document.getElementById('cr-scholar-roll').value = s ? s.roll : '';
+      document.getElementById('cr-scholar-dob').value = s ? (s.dob || '') : '';
+      document.getElementById('cr-scholar-email').value = s ? (s.email || '') : '';
+      document.getElementById('cr-scholar-delete-btn').style.display = s ? 'inline-flex' : 'none';
+      document.getElementById('crScholarModal').style.display = 'flex';
+    }
+
+    async function saveScholarFromEditor() {
+      const scholar = {
+        name: document.getElementById('cr-scholar-name').value.trim(),
+        roll: document.getElementById('cr-scholar-roll').value.trim(),
+        dob: document.getElementById('cr-scholar-dob').value.trim(),
+        email: document.getElementById('cr-scholar-email').value.trim()
+      };
+      if (!scholar.name || !scholar.roll) return toast('Name and roll number are required', true);
+      const ok = await crOp({ op: 'scholar_save', origRoll: document.getElementById('cr-scholar-orig').value, scholar }, 'Scholar saved for everyone ✓');
+      if (ok) closeModal('crScholarModal');
+    }
+
+    async function removeScholarFromEditor() {
+      const roll = document.getElementById('cr-scholar-orig').value;
+      if (!roll || !confirm('Remove this scholar from the registry?')) return;
+      const ok = await crOp({ op: 'scholar_remove', roll }, 'Scholar removed ✓');
+      if (ok) closeModal('crScholarModal');
     }
 
     // --- 11. SUBMISSION DOSSIERS ---
@@ -1855,9 +2098,9 @@
       container.innerHTML = guidelines.map(g => `
         <div class="mag-plate dossier-card">
           <div class="dossier-image-box">
-            <img src="${g.image}" alt="${escapeHTML(g.title)}" />
+            <img src="${safeUrl(g.image)}" alt="${escapeHTML(g.title)}" />
             <div style="position:absolute; top:12px; left:12px; background:#e57358; color:#fff; font-size:0.7rem; font-weight:700; padding:2px 8px; border-radius:4px;">
-              ${g.subject}
+              ${escapeHTML(g.subject)}
             </div>
           </div>
           <div style="padding:22px; display:flex; flex-direction:column; flex:1; justify-content:space-between;">
@@ -1870,7 +2113,7 @@
             </div>
             <div style="display:flex; justify-content:space-between; align-items:center; padding-top:10px; border-top:1px solid rgba(255,255,255,0.06);">
               <span style="font-size:0.72rem; color:var(--text-2); font-family:var(--font-biomorph);">AB204 Studio</span>
-              <button class="btn-editorial cr-only-btn" style="padding:4px 10px; font-size:0.72rem;" onclick="triggerProtectedAction('edit_guide_' + ${g.id})">Edit</button>
+              ${crTools(`triggerProtectedAction('edit_guide_${g.id}')`, `deleteGuideline(${g.id})`)}
             </div>
           </div>
         </div>
@@ -1893,9 +2136,9 @@
           <div class="radar-card" style="border-left:4px solid ${isUrgent ? '#f43f5e' : 'var(--accent)'};">
             <div>
               <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                <span class="c-badge c-ps3" style="width:auto; padding:3px 8px;">${d.subject}</span>
+                <span class="c-badge c-ps3" style="width:auto; padding:3px 8px;">${escapeHTML(d.subject)}</span>
                 <span class="deadline-badge" style="background:${isUrgent ? 'rgba(244,63,94,0.3)' : 'rgba(255,255,255,0.06)'}; color:${isUrgent ? '#f43f5e' : '#f8fafc'};">
-                  Due: ${d.date}
+                  Due: ${escapeHTML(d.date)}
                 </span>
               </div>
               <h3 style="font-family:var(--font-serif); font-size:1.25rem; font-weight:700; margin-top:4px;">${escapeHTML(d.title)}</h3>
@@ -1907,7 +2150,7 @@
               </div>
               <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
                 <span style="font-size:0.72rem; color:var(--text-2); font-family:var(--font-biomorph);">AB204 Studio</span>
-                <button class="btn-editorial cr-only-btn" style="padding:4px 8px; font-size:0.7rem;" onclick="triggerProtectedAction('edit_deadline_' + ${d.id})">✏ Modify</button>
+                ${crTools(`triggerProtectedAction('edit_deadline_${d.id}')`, `deleteDeadline(${d.id})`)}
               </div>
             </div>
           </div>
@@ -1922,10 +2165,11 @@
     function renderCreativeCorner() {
       const container = document.getElementById('creative-corner-grid');
       if (!container) return;
+      const fallback = 'https://images.unsplash.com/photo-1519999482648-25049ddd37b1?auto=format&fit=crop&w=800&q=80';
       container.innerHTML = creativeWorks.map(w => `
         <div class="mag-plate dossier-card">
           <div class="dossier-image-box">
-            <img src="${w.image || 'https://images.unsplash.com/photo-1519999482648-25049ddd37b1?auto=format&fit=crop&w=800&q=80'}" alt="${escapeHTML(w.title)}" />
+            <img src="${safeUrl(w.image) || fallback}" alt="${escapeHTML(w.title)}" />
             <div style="position:absolute; top:12px; left:12px; background:rgba(0,0,0,0.7); color:var(--cyan); font-family:var(--font-biomorph); font-size:0.7rem; padding:2px 8px; border-radius:4px;">
               ${escapeHTML(w.category)}
             </div>
@@ -1940,20 +2184,31 @@
               <button class="btn-like" onclick="likeCreativeWork(${w.id})">
                 <span>❤️</span> <span id="creative-likes-${w.id}">${w.likes || 0}</span>
               </button>
-              <button class="btn-editorial" style="padding:4px 10px; font-size:0.72rem;" onclick="window.open('${w.image}', '_blank')">🔍 Expand</button>
+              <div style="display:flex; align-items:center; gap:6px;">
+                <button class="btn-editorial" style="padding:4px 10px; font-size:0.72rem;" onclick="openImageSafe(${w.id})">🔍 Expand</button>
+                ${crTools(`triggerProtectedAction('edit_creative_${w.id}')`, `deleteCreativeWork(${w.id})`)}
+              </div>
             </div>
           </div>
         </div>
       `).join('');
+      applyRolePermissions();
     }
 
-    function likeCreativeWork(id) {
-      const work = creativeWorks.find(w => w.id === id);
-      if (!work) return;
-      work.likes = (work.likes || 0) + 1;
-      pushGlobalState();
-      const countEl = document.getElementById(`creative-likes-${id}`);
-      if (countEl) countEl.textContent = work.likes;
+    function openImageSafe(id) {
+      const w = creativeWorks.find(x => x.id === id);
+      const u = w && safeUrl(w.image);
+      if (u && !u.startsWith('data:')) window.open(u, '_blank', 'noopener');
+      else if (u) { const win = window.open(); if (win) { win.opener = null; win.document.write(`<img src="${u}" style="max-width:100%">`); } }
+    }
+
+    async function likeCreativeWork(id) {
+      try {
+        await actCall({ op: 'like', kind: 'creative', id });
+        const w = creativeWorks.find(x => x.id === id);
+        const el = document.getElementById(`creative-likes-${id}`);
+        if (el && w) el.textContent = w.likes || 0;
+      } catch (e) { toast(e.message, true); }
     }
 
     // --- 14. CLASS BLOGS ---
@@ -1977,19 +2232,21 @@
                 <span>❤</span> <span id="blog-likes-${b.id}">${b.likes || 0}</span>
               </button>
               <button class="btn-editorial" style="padding:4px 10px; font-size:0.72rem;" onclick="openBlogReader(${b.id})">Read ➔</button>
+              ${crTools(`triggerProtectedAction('edit_blog_${b.id}')`, `deleteBlogPost(${b.id})`)}
             </div>
           </div>
         </article>
       `).join('');
+      applyRolePermissions();
     }
 
-    function likeBlogPost(id) {
-      const blog = classBlogs.find(b => b.id === id);
-      if (!blog) return;
-      blog.likes = (blog.likes || 0) + 1;
-      pushGlobalState();
-      const countEl = document.getElementById(`blog-likes-${id}`);
-      if (countEl) countEl.textContent = blog.likes;
+    async function likeBlogPost(id) {
+      try {
+        await actCall({ op: 'like', kind: 'blog', id });
+        const b = classBlogs.find(x => x.id === id);
+        const el = document.getElementById(`blog-likes-${id}`);
+        if (el && b) el.textContent = b.likes || 0;
+      } catch (e) { toast(e.message, true); }
     }
 
     function openBlogReader(id) {
@@ -2006,6 +2263,7 @@
     function renderSuggestionsFeed() {
       const container = document.getElementById('suggestions-feed-container');
       if (!container) return;
+      document.getElementById('suggestions-badge-count').textContent = suggestions.length;
       if (!suggestions.length) {
         container.innerHTML = `<div style="font-size:0.82rem; color:var(--text-2); padding:10px 0;">No suggestions yet. Tap "+ New Suggestion".</div>`;
         return;
@@ -2013,9 +2271,10 @@
       container.innerHTML = suggestions.map(s => {
         const responsesHtml = (s.responses && s.responses.length) ? `
           <div style="margin-top:10px; padding-left:12px; border-left:2px solid var(--accent); display:flex; flex-direction:column; gap:6px;">
-            ${s.responses.map(r => `
-              <div style="background:rgba(255,255,255,0.03); padding:6px 10px; border-radius:4px; font-size:0.75rem;">
-                <strong style="color:var(--accent-warm);">${escapeHTML(r.author)}:</strong> ${escapeHTML(r.text)}
+            ${s.responses.map((r, ri) => `
+              <div style="background:rgba(255,255,255,0.03); padding:6px 10px; border-radius:4px; font-size:0.75rem; display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
+                <span><strong style="color:var(--accent-warm);">${escapeHTML(r.author)}:</strong> ${escapeHTML(r.text)}</span>
+                ${isCRMode ? `<button class="icon-btn danger cr-only-btn" title="Delete reply" onclick="deleteReply(${s.id}, ${ri})">🗑</button>` : ''}
               </div>
             `).join('')}
           </div>
@@ -2034,13 +2293,14 @@
 
             ${responsesHtml}
 
-            <div style="display:flex; justify-content:flex-end; margin-top:10px;">
+            <div style="display:flex; justify-content:flex-end; gap:6px; margin-top:10px;">
               <button class="btn-editorial" style="padding:4px 10px; font-size:0.72rem;" onclick="openReplyModal(${s.id})">💬 Reply</button>
+              ${isCRMode ? `<button class="icon-btn danger cr-only-btn" title="Delete suggestion" onclick="deleteSuggestion(${s.id})">🗑 Delete</button>` : ''}
             </div>
           </div>
         `;
       }).join('');
-      document.getElementById('suggestions-badge-count').textContent = suggestions.length;
+      applyRolePermissions();
     }
 
     function openNewSuggestionModal() {
@@ -2050,27 +2310,28 @@
       document.getElementById('newSuggestionModal').style.display = 'flex';
     }
 
-    function postSuggestion() {
+    async function postSuggestion() {
       const author = document.getElementById('sugg-author').value.trim() || 'Scholar';
       const title = document.getElementById('sugg-title').value.trim();
       const body = document.getElementById('sugg-body').value.trim();
-      if (!title || !body) return alert("Fill in title and details.");
-
-      const newS = { id: Date.now(), author, title, body, date: "Oct 4, 2026", likes: 1, responses: [] };
-      suggestions.unshift(newS);
-      pushGlobalState();
-      renderSuggestionsFeed();
-      renderCRSuggestionsManager();
-      closeModal('newSuggestionModal');
+      if (!title || !body) return toast('Fill in title and details.', true);
+      try {
+        await actCall({ op: 'post_suggestion', author, title, body });
+        renderSuggestionsFeed();
+        renderCRSuggestionsManager();
+        updateBlinkingRemindersMarquee();
+        closeModal('newSuggestionModal');
+        toast('Suggestion posted for the whole class ✓');
+      } catch (e) { toast(e.message, true); }
     }
 
-    function likeSuggestion(id) {
-      const sugg = suggestions.find(s => s.id === id);
-      if (!sugg) return;
-      sugg.likes = (sugg.likes || 0) + 1;
-      pushGlobalState();
-      const countEl = document.getElementById(`sugg-likes-${id}`);
-      if (countEl) countEl.textContent = sugg.likes;
+    async function likeSuggestion(id) {
+      try {
+        await actCall({ op: 'like', kind: 'suggestion', id });
+        const sugg = suggestions.find(x => x.id === id);
+        const el = document.getElementById(`sugg-likes-${id}`);
+        if (el && sugg) el.textContent = sugg.likes || 0;
+      } catch (e) { toast(e.message, true); }
     }
 
     function openReplyModal(id) {
@@ -2083,20 +2344,18 @@
       document.getElementById('replySuggestionModal').style.display = 'flex';
     }
 
-    function submitReplyToSuggestion() {
+    async function submitReplyToSuggestion() {
       const id = parseInt(document.getElementById('reply-target-id').value, 10);
       const author = document.getElementById('reply-author').value.trim() || 'Studio Member';
       const text = document.getElementById('reply-body').value.trim();
-      if (!text) return alert("Response text required.");
-
-      const sugg = suggestions.find(s => s.id === id);
-      if (!sugg) return;
-      if (!sugg.responses) sugg.responses = [];
-      sugg.responses.push({ author, text, date: "Today" });
-      pushGlobalState();
-      renderSuggestionsFeed();
-      renderCRSuggestionsManager();
-      closeModal('replySuggestionModal');
+      if (!text) return toast('Response text required.', true);
+      try {
+        await actCall({ op: 'reply', id, author, text });
+        renderSuggestionsFeed();
+        renderCRSuggestionsManager();
+        closeModal('replySuggestionModal');
+        toast('Reply posted ✓');
+      } catch (e) { toast(e.message, true); }
     }
 
     function renderCRSuggestionsManager() {
@@ -2110,20 +2369,23 @@
         <div style="background:rgba(255,255,255,0.03); padding:8px 12px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
           <div>
             <strong style="color:#fff; font-size:0.82rem;">${escapeHTML(s.title)}</strong>
-            <div style="font-size:0.7rem; color:var(--accent-warm);">${s.author} • ${s.responses ? s.responses.length : 0} replies</div>
+            <div style="font-size:0.7rem; color:var(--accent-warm);">${escapeHTML(s.author)} • ${s.responses ? s.responses.length : 0} replies</div>
           </div>
           <button class="btn-editorial" style="padding:4px 8px; font-size:0.7rem; color:#f43f5e;" onclick="deleteSuggestion(${s.id})">🗑</button>
         </div>
       `).join('');
     }
 
-    function deleteSuggestion(id) {
+    async function deleteSuggestion(id) {
+      if (!ensureCR()) return;
       if (!confirm("Remove this suggestion?")) return;
-      suggestions = suggestions.filter(s => s.id !== id);
-      pushGlobalState();
-      renderSuggestionsFeed();
-      renderCRSuggestionsManager();
-      updateBlinkingRemindersMarquee();
+      await crOp({ op: 'delete_suggestion', id }, 'Suggestion removed ✓');
+    }
+
+    async function deleteReply(id, index) {
+      if (!ensureCR()) return;
+      if (!confirm("Remove this reply?")) return;
+      await crOp({ op: 'delete_reply', id, index }, 'Reply removed ✓');
     }
 
     // --- 16. BIRTHDAY SPOTLIGHT & HUB ---
@@ -2160,8 +2422,8 @@
         document.getElementById('spotlight-roll').textContent = nearestScholar.roll;
         document.getElementById('spotlight-dob').textContent = `DOB: ${nearestScholar.dob}`;
         const avatarBox = document.getElementById('spotlight-avatar');
-        if (nearestScholar.photo) {
-          avatarBox.innerHTML = `<img src="${nearestScholar.photo}" alt="${nearestScholar.name}" />`;
+        if (safeUrl(nearestScholar.photo)) {
+          avatarBox.innerHTML = `<img src="${safeUrl(nearestScholar.photo)}" alt="${escapeHTML(nearestScholar.name)}" />`;
         } else {
           avatarBox.textContent = nearestScholar.name.charAt(0);
         }
@@ -2175,7 +2437,10 @@
       if (aList) {
         aList.innerHTML = announcements.map(a => `
           <div class="entry-card">
-            <div class="entry-headline">${escapeHTML(a.title)}</div>
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:6px;">
+              <div class="entry-headline">${escapeHTML(a.title)}</div>
+              ${crTools(`triggerProtectedAction('edit_notice_${a.id}')`, `deleteNotice(${a.id})`)}
+            </div>
             <div class="entry-desc">${escapeHTML(a.desc)}</div>
           </div>
         `).join('');
@@ -2187,12 +2452,16 @@
           <div class="entry-card deadline-row-item">
             <div>
               <div class="entry-headline">${escapeHTML(d.title)}</div>
-              <div style="font-size:0.75rem; color:var(--accent-warm); font-family:var(--font-biomorph); font-weight:700;">${d.subject}</div>
+              <div style="font-size:0.75rem; color:var(--accent-warm); font-family:var(--font-biomorph); font-weight:700;">${escapeHTML(d.subject)}</div>
             </div>
-            <span class="deadline-badge">${d.date}</span>
+            <div style="display:flex; align-items:center; gap:4px;">
+              <span class="deadline-badge">${escapeHTML(d.date)}</span>
+              ${crTools(`triggerProtectedAction('edit_deadline_${d.id}')`, `deleteDeadline(${d.id})`)}
+            </div>
           </div>
         `).join('');
       }
+      applyRolePermissions();
     }
 
     // --- 17. CLASS PORTRAIT & CALENDAR ---
@@ -2210,17 +2479,17 @@
       }
     }
 
-    function handleClassPhotoUpload(e) {
+    async function handleClassPhotoUpload(e) {
       const file = e.target.files[0];
+      e.target.value = '';
       if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        classPhoto = ev.target.result;
-        localStorage.setItem('plaxus_class_photo', classPhoto);
+      if (!ensureCR()) return;
+      try {
+        classPhoto = await resizeImageFile(file, 1400, 0.8);
         loadClassPhoto();
+        await crSave(['classPhoto'], 'Class portrait updated for everyone ✓');
         updateBlinkingRemindersMarquee();
-      };
-      reader.readAsDataURL(file);
+      } catch (err) { toast('Could not process that image', true); await loadState(true); }
     }
 
     function renderAcademicCalendar() {
@@ -2285,40 +2554,69 @@
     let pendingAction = null;
 
     function openCRAuthModal(action = null) {
+      if (!isCRMode) return;
       pendingAction = action;
-      if (sessionStorage.getItem('plaxus_cr_auth_ok') === 'true') {
-        proceedToCRAction();
-        return;
-      }
+      if (crPass) { proceedToCRAction(); return; }
       document.getElementById('cr-passcode-input').value = '';
       document.getElementById('cr-auth-error').style.display = 'none';
       document.getElementById('crAuthModal').style.display = 'flex';
+      setTimeout(() => { const i = document.getElementById('cr-passcode-input'); if (i) i.focus(); }, 50);
     }
 
-    function verifyCRAuth() {
+    async function verifyCRAuth() {
       const entered = document.getElementById('cr-passcode-input').value;
-      if (entered === crPasscode || entered === '2026' || entered === 'm25nitc') {
-        sessionStorage.setItem('plaxus_cr_auth_ok', 'true');
-        closeModal('crAuthModal');
-        proceedToCRAction();
-      } else {
-        document.getElementById('cr-auth-error').style.display = 'block';
+      const errEl = document.getElementById('cr-auth-error');
+      const btn = document.getElementById('cr-unlock-btn');
+      if (!entered) return;
+      errEl.style.display = 'none';
+      if (btn) { btn.disabled = true; btn.textContent = 'Checking…'; }
+      try {
+        const { res } = await postJSON('/api/verify', { passcode: entered });
+        if (res.ok) {
+          crPass = entered;
+          sessionStorage.setItem('plaxus_cr_pass', crPass);
+          closeModal('crAuthModal');
+          await loadState(true);
+          proceedToCRAction();
+        } else if (res.status === 401) {
+          errEl.textContent = 'Incorrect passcode.';
+          errEl.style.display = 'block';
+        } else {
+          errEl.textContent = 'Cloud backend is not reachable yet. Check the deployment.';
+          errEl.style.display = 'block';
+        }
+      } catch (e) {
+        errEl.textContent = e.message || 'Could not reach the server.';
+        errEl.style.display = 'block';
+      } finally {
+        if (btn) { btn.disabled = false; btn.textContent = 'Unlock'; }
       }
     }
 
     function proceedToCRAction() {
-      if (pendingAction === 'uploadClassPhoto') {
+      const a = pendingAction;
+      pendingAction = null;
+      if (a === 'login_only') return;
+      if (a === 'uploadClassPhoto') {
         document.getElementById('class-photo-input').click();
-      } else if (pendingAction && pendingAction.startsWith('edit_deadline_')) {
-        const id = parseInt(pendingAction.replace('edit_deadline_', ''), 10);
+      } else if (a && a.startsWith('tab_')) {
         openCRSuiteModal();
-        switchCRTab('manage-deadlines');
-        loadDeadlineForEdit(id);
-      } else if (pendingAction && pendingAction.startsWith('edit_guide_')) {
-        const id = parseInt(pendingAction.replace('edit_guide_', ''), 10);
-        openCRSuiteModal();
-        switchCRTab('manage-guidelines');
-        loadGuidelineForEdit(id);
+        switchCRTab(a.replace('tab_', ''));
+      } else if (a && a.startsWith('edit_deadline_')) {
+        const id = parseInt(a.replace('edit_deadline_', ''), 10);
+        openCRSuiteModal(); switchCRTab('manage-deadlines'); loadDeadlineForEdit(id);
+      } else if (a && a.startsWith('edit_guide_')) {
+        const id = parseInt(a.replace('edit_guide_', ''), 10);
+        openCRSuiteModal(); switchCRTab('manage-guidelines'); loadGuidelineForEdit(id);
+      } else if (a && a.startsWith('edit_notice_')) {
+        const id = parseInt(a.replace('edit_notice_', ''), 10);
+        openCRSuiteModal(); switchCRTab('manage-notices'); loadNoticeForEdit(id);
+      } else if (a && a.startsWith('edit_creative_')) {
+        const id = parseInt(a.replace('edit_creative_', ''), 10);
+        openCRSuiteModal(); switchCRTab('manage-creative'); loadCreativeForEdit(id);
+      } else if (a && a.startsWith('edit_blog_')) {
+        const id = parseInt(a.replace('edit_blog_', ''), 10);
+        openCRSuiteModal(); switchCRTab('manage-blogs'); loadBlogForEdit(id);
       } else {
         openCRSuiteModal();
       }
@@ -2329,8 +2627,7 @@
     }
 
     function openCRSuiteWithTab(tabName) {
-      openCRAuthModal();
-      setTimeout(() => switchCRTab(tabName), 50);
+      openCRAuthModal('tab_' + tabName);
     }
 
     function openCRSuiteModal() {
@@ -2410,13 +2707,14 @@
       document.getElementById('cancel-deadline-edit-btn').style.display = 'none';
     }
 
-    function saveOrUpdateDeadline() {
+    async function saveOrUpdateDeadline() {
+      if (!ensureCR()) return;
       const id = document.getElementById('cr-deadline-id').value;
       const title = document.getElementById('cr-deadline-title').value.trim();
       const subject = document.getElementById('cr-deadline-subject').value;
       const date = document.getElementById('cr-deadline-date').value;
       const desc = document.getElementById('cr-deadline-desc').value.trim() || 'Milestone.';
-      if (!title || !date) return alert("Title and date required");
+      if (!title || !date) return toast("Title and date required", true);
 
       if (id) {
         const index = deadlines.findIndex(d => d.id === parseInt(id, 10));
@@ -2424,24 +2722,14 @@
       } else {
         deadlines.push({ id: Date.now(), title, subject, date, desc });
       }
-      pushGlobalState();
-      renderCRDeadlinesManager();
-      renderHubContent();
-      renderDeadlinesTab();
-      renderAcademicCalendar();
-      updateBlinkingRemindersMarquee();
-      resetDeadlineForm();
+      if (await crSave(['deadlines'])) resetDeadlineForm();
     }
 
-    function deleteDeadline(id) {
+    async function deleteDeadline(id) {
+      if (!ensureCR()) return;
       if (!confirm("Remove deadline?")) return;
       deadlines = deadlines.filter(d => d.id !== id);
-      pushGlobalState();
-      renderCRDeadlinesManager();
-      renderHubContent();
-      renderDeadlinesTab();
-      renderAcademicCalendar();
-      updateBlinkingRemindersMarquee();
+      await crSave(['deadlines'], 'Deadline removed ✓');
     }
 
     function renderCRGuidelinesManager() {
@@ -2487,7 +2775,8 @@
       document.getElementById('cancel-guide-edit-btn').style.display = 'none';
     }
 
-    function saveOrUpdateGuideline() {
+    async function saveOrUpdateGuideline() {
+      if (!ensureCR()) return;
       const id = document.getElementById('cr-guide-id').value;
       const subject = document.getElementById('cr-guide-subject').value;
       const title = document.getElementById('cr-guide-title').value.trim();
@@ -2495,8 +2784,8 @@
       const specsRaw = document.getElementById('cr-guide-specs').value.trim();
       const body = document.getElementById('cr-guide-body').value.trim();
 
-      if (!title || !body) return alert("Title and details required");
-      const specs = specsRaw ? specsRaw.split(',').map(s => s.trim()) : ["A1 Landscape"];
+      if (!title || !body) return toast("Title and details required", true);
+      const specs = specsRaw ? specsRaw.split(',').map(s => s.trim()).filter(Boolean) : ["A1 Landscape"];
 
       if (id) {
         const index = guidelines.findIndex(g => g.id === parseInt(id, 10));
@@ -2504,20 +2793,14 @@
       } else {
         guidelines.push({ id: Date.now(), subject, title, image, specs, body });
       }
-      pushGlobalState();
-      renderCRGuidelinesManager();
-      renderGuidelines();
-      updateBlinkingRemindersMarquee();
-      resetGuidelineForm();
+      if (await crSave(['guidelines'])) resetGuidelineForm();
     }
 
-    function deleteGuideline(id) {
+    async function deleteGuideline(id) {
+      if (!ensureCR()) return;
       if (!confirm("Remove dossier?")) return;
       guidelines = guidelines.filter(g => g.id !== id);
-      pushGlobalState();
-      renderCRGuidelinesManager();
-      renderGuidelines();
-      updateBlinkingRemindersMarquee();
+      await crSave(['guidelines'], 'Dossier removed ✓');
     }
 
     function renderCRCreativeManager() {
@@ -2531,40 +2814,61 @@
         <div style="background:rgba(255,255,255,0.03); padding:8px 12px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
           <div>
             <strong style="color:#fff; font-size:0.82rem;">${escapeHTML(w.title)}</strong>
-            <div style="font-size:0.7rem; color:var(--accent-warm);">${w.author} • ${w.likes || 0} likes</div>
+            <div style="font-size:0.7rem; color:var(--accent-warm);">${escapeHTML(w.author)} • ${w.likes || 0} likes</div>
           </div>
-          <button class="btn-editorial" style="padding:4px 8px; font-size:0.7rem; color:#f43f5e;" onclick="deleteCreativeWork(${w.id})">🗑</button>
+          <div style="display:flex; gap:4px;">
+            <button class="btn-editorial" style="padding:3px 8px; font-size:0.68rem;" onclick="loadCreativeForEdit(${w.id})">✏</button>
+            <button class="btn-editorial" style="padding:3px 8px; font-size:0.68rem; color:#f43f5e;" onclick="deleteCreativeWork(${w.id})">🗑</button>
+          </div>
         </div>
       `).join('');
     }
 
-    function saveCreativeWork() {
+    function loadCreativeForEdit(id) {
+      const w = creativeWorks.find(x => x.id === id);
+      if (!w) return;
+      document.getElementById('cr-creative-id').value = w.id;
+      document.getElementById('cr-creative-title').value = w.title || '';
+      document.getElementById('cr-creative-author').value = w.author || '';
+      document.getElementById('cr-creative-cat').value = w.category || 'Cartography & GIS';
+      document.getElementById('cr-creative-image').value = w.image || '';
+      document.getElementById('cr-creative-desc').value = w.desc || '';
+      document.getElementById('creative-form-heading').textContent = 'Modify Creative Sheet';
+      document.getElementById('save-creative-btn').textContent = 'Update & Sync';
+      document.getElementById('cancel-creative-edit-btn').style.display = 'inline-block';
+    }
+
+    function resetCreativeForm() {
+      ['id', 'title', 'author', 'image', 'desc'].forEach(f => { document.getElementById('cr-creative-' + f).value = ''; });
+      document.getElementById('creative-form-heading').textContent = 'Pin Creative Sheet';
+      document.getElementById('save-creative-btn').textContent = 'Pin Work & Sync';
+      document.getElementById('cancel-creative-edit-btn').style.display = 'none';
+    }
+
+    async function saveCreativeWork() {
+      if (!ensureCR()) return;
+      const id = document.getElementById('cr-creative-id').value;
       const title = document.getElementById('cr-creative-title').value.trim();
       const author = document.getElementById('cr-creative-author').value.trim();
       const category = document.getElementById('cr-creative-cat').value;
       const image = document.getElementById('cr-creative-image').value.trim() || 'https://images.unsplash.com/photo-1519999482648-25049ddd37b1?auto=format&fit=crop&w=800&q=80';
       const desc = document.getElementById('cr-creative-desc').value.trim() || 'Design sheet.';
 
-      if (!title || !author) return alert("Title and author required");
-      creativeWorks.push({ id: Date.now(), title, author, category, image, desc, likes: 0 });
-      pushGlobalState();
-      renderCRCreativeManager();
-      renderCreativeCorner();
-      updateBlinkingRemindersMarquee();
-      document.getElementById('cr-creative-title').value = '';
-      document.getElementById('cr-creative-author').value = '';
-      document.getElementById('cr-creative-image').value = '';
-      document.getElementById('cr-creative-desc').value = '';
-      closeModal('crSuiteModal');
+      if (!title || !author) return toast("Title and author required", true);
+      if (id) {
+        const idx = creativeWorks.findIndex(w => w.id === parseInt(id, 10));
+        if (idx !== -1) creativeWorks[idx] = Object.assign({}, creativeWorks[idx], { title, author, category, image, desc });
+      } else {
+        creativeWorks.push({ id: Date.now(), title, author, category, image, desc, likes: 0 });
+      }
+      if (await crSave(['creativeWorks'])) { resetCreativeForm(); closeModal('crSuiteModal'); }
     }
 
-    function deleteCreativeWork(id) {
+    async function deleteCreativeWork(id) {
+      if (!ensureCR()) return;
       if (!confirm("Remove sheet?")) return;
       creativeWorks = creativeWorks.filter(w => w.id !== id);
-      pushGlobalState();
-      renderCRCreativeManager();
-      renderCreativeCorner();
-      updateBlinkingRemindersMarquee();
+      await crSave(['creativeWorks'], 'Sheet removed ✓');
     }
 
     function renderCRBlogsManager() {
@@ -2578,42 +2882,61 @@
         <div style="background:rgba(255,255,255,0.03); padding:8px 12px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
           <div>
             <strong style="color:#fff; font-size:0.82rem;">${escapeHTML(b.title)}</strong>
-            <div style="font-size:0.7rem; color:var(--accent-warm);">${b.author}</div>
+            <div style="font-size:0.7rem; color:var(--accent-warm);">${escapeHTML(b.author)}</div>
           </div>
-          <button class="btn-editorial" style="padding:4px 8px; font-size:0.7rem; color:#f43f5e;" onclick="deleteBlogPost(${b.id})">🗑</button>
+          <div style="display:flex; gap:4px;">
+            <button class="btn-editorial" style="padding:3px 8px; font-size:0.68rem;" onclick="loadBlogForEdit(${b.id})">✏</button>
+            <button class="btn-editorial" style="padding:3px 8px; font-size:0.68rem; color:#f43f5e;" onclick="deleteBlogPost(${b.id})">🗑</button>
+          </div>
         </div>
       `).join('');
     }
 
-    function saveBlogPost() {
-      const title = document.getElementById('cr-blog-title').value.trim();
-      const author = document.getElementById('cr-blog-author').value.trim();
-      const tag = document.getElementById('cr-blog-tag').value.trim() || 'Reflection';
-      const body = document.getElementById('cr-blog-body').value.trim();
-      if (!title || !body) return alert("Title and body required");
-
-      const excerpt = body.slice(0, 120) + '...';
-      const date = "October 2026";
-
-      classBlogs.unshift({ id: Date.now(), title, author, tag, date, excerpt, body, likes: 0 });
-      pushGlobalState();
-      renderCRBlogsManager();
-      renderClassBlogs();
-      updateBlinkingRemindersMarquee();
-      document.getElementById('cr-blog-title').value = '';
-      document.getElementById('cr-blog-author').value = '';
-      document.getElementById('cr-blog-tag').value = '';
-      document.getElementById('cr-blog-body').value = '';
-      closeModal('crSuiteModal');
+    function loadBlogForEdit(id) {
+      const b = classBlogs.find(x => x.id === id);
+      if (!b) return;
+      document.getElementById('cr-blog-id').value = b.id;
+      document.getElementById('cr-blog-title').value = b.title || '';
+      document.getElementById('cr-blog-author').value = b.author || '';
+      document.getElementById('cr-blog-tag').value = b.tag || '';
+      document.getElementById('cr-blog-body').value = b.body || b.excerpt || '';
+      document.getElementById('blog-form-heading').textContent = 'Modify Article';
+      document.getElementById('save-blog-btn').textContent = 'Update & Sync';
+      document.getElementById('cancel-blog-edit-btn').style.display = 'inline-block';
     }
 
-    function deleteBlogPost(id) {
+    function resetBlogForm() {
+      ['id', 'title', 'author', 'tag', 'body'].forEach(f => { document.getElementById('cr-blog-' + f).value = ''; });
+      document.getElementById('blog-form-heading').textContent = 'Publish Article';
+      document.getElementById('save-blog-btn').textContent = 'Publish & Sync';
+      document.getElementById('cancel-blog-edit-btn').style.display = 'none';
+    }
+
+    async function saveBlogPost() {
+      if (!ensureCR()) return;
+      const id = document.getElementById('cr-blog-id').value;
+      const title = document.getElementById('cr-blog-title').value.trim();
+      const author = document.getElementById('cr-blog-author').value.trim() || 'CR Desk';
+      const tag = document.getElementById('cr-blog-tag').value.trim() || 'Reflection';
+      const body = document.getElementById('cr-blog-body').value.trim();
+      if (!title || !body) return toast("Title and body required", true);
+
+      const excerpt = body.length > 120 ? body.slice(0, 120) + '...' : body;
+      if (id) {
+        const idx = classBlogs.findIndex(b => b.id === parseInt(id, 10));
+        if (idx !== -1) classBlogs[idx] = Object.assign({}, classBlogs[idx], { title, author, tag, excerpt, body });
+      } else {
+        const date = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+        classBlogs.unshift({ id: Date.now(), title, author, tag, date, excerpt, body, likes: 0 });
+      }
+      if (await crSave(['classBlogs'])) { resetBlogForm(); closeModal('crSuiteModal'); }
+    }
+
+    async function deleteBlogPost(id) {
+      if (!ensureCR()) return;
       if (!confirm("Remove reflection?")) return;
       classBlogs = classBlogs.filter(b => b.id !== id);
-      pushGlobalState();
-      renderCRBlogsManager();
-      renderClassBlogs();
-      updateBlinkingRemindersMarquee();
+      await crSave(['classBlogs'], 'Article removed ✓');
     }
 
     function renderCRNoticesManager() {
@@ -2627,7 +2950,7 @@
         <div style="background:rgba(255,255,255,0.03); padding:8px 12px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
           <div>
             <strong style="color:#fff; font-size:0.82rem;">${escapeHTML(a.title)}</strong>
-            <div style="font-size:0.7rem; color:var(--text-2);">${a.date}</div>
+            <div style="font-size:0.7rem; color:var(--text-2);">${escapeHTML(a.date)}</div>
           </div>
           <div style="display:flex; gap:4px;">
             <button class="btn-editorial" style="padding:3px 8px; font-size:0.68rem;" onclick="loadNoticeForEdit(${a.id})">✏</button>
@@ -2651,35 +2974,28 @@
       document.getElementById('cr-notice-desc').value = '';
     }
 
-    function saveOrUpdateNotice() {
+    async function saveOrUpdateNotice() {
+      if (!ensureCR()) return;
       const id = document.getElementById('cr-notice-id').value;
       const title = document.getElementById('cr-notice-title').value.trim();
       const desc = document.getElementById('cr-notice-desc').value.trim();
       const date = new Date().toISOString().split('T')[0];
-      if (!title) return alert("Headline required");
+      if (!title) return toast("Headline required", true);
 
       if (id) {
         const index = announcements.findIndex(a => a.id === parseInt(id, 10));
-        if (index !== -1) announcements[index] = { id: parseInt(id, 10), title, desc, date };
+        if (index !== -1) announcements[index] = { id: parseInt(id, 10), title, desc, date: announcements[index].date || date };
       } else {
         announcements.unshift({ id: Date.now(), title, desc, date });
       }
-      pushGlobalState();
-      renderCRNoticesManager();
-      renderHubContent();
-      renderAcademicCalendar();
-      updateBlinkingRemindersMarquee();
-      resetNoticeForm();
+      if (await crSave(['announcements'])) resetNoticeForm();
     }
 
-    function deleteNotice(id) {
+    async function deleteNotice(id) {
+      if (!ensureCR()) return;
       if (!confirm("Remove notice?")) return;
       announcements = announcements.filter(a => a.id !== id);
-      pushGlobalState();
-      renderCRNoticesManager();
-      renderHubContent();
-      renderAcademicCalendar();
-      updateBlinkingRemindersMarquee();
+      await crSave(['announcements'], 'Notice removed ✓');
     }
 
     function loadDaySlotsIntoEditor() {
@@ -2690,23 +3006,23 @@
       container.innerHTML = slots.map((s, idx) => `
         <div class="form-unit">
           <label style="font-size:0.65rem;">Slot ${idx+1}</label>
-          <input type="text" class="input-field" style="padding:6px; font-size:0.75rem;" id="tt-slot-${idx}" value="${s}" />
+          <input type="text" class="input-field" style="padding:6px; font-size:0.75rem;" id="tt-slot-${idx}" maxlength="40" value="${escapeHTML(s)}" />
         </div>
       `).join('');
     }
 
-    function saveDayTimetableChanges() {
+    async function saveDayTimetableChanges() {
+      if (!ensureCR()) return;
       const day = document.getElementById('cr-tt-day').value;
       const updatedSlots = [];
       for (let i = 0; i < 9; i++) {
         updatedSlots.push(document.getElementById(`tt-slot-${i}`).value.trim() || '-');
       }
       timetable[day] = updatedSlots;
-      pushGlobalState();
-      renderTimetable();
-      updateCockpitHours();
-      alert(`Timetable updated.`);
-      closeModal('crSuiteModal');
+      if (await crSave(['timetable'], 'Timetable updated for everyone ✓')) {
+        updateCockpitHours();
+        closeModal('crSuiteModal');
+      }
     }
 
     function generateWhatsAppSummaryText() {
@@ -2730,33 +3046,35 @@
 
     function dispatchWhatsAppFromCR() {
       const text = generateWhatsAppSummaryText();
-      const link = generateShareableClassUrl();
-      const message = encodeURIComponent(`${text}\n${link}`);
+      const message = encodeURIComponent(`${text}\n${classLinkUrl()}`);
       window.open(`https://api.whatsapp.com/send?text=${message}`, '_blank');
     }
 
-    function saveCRSettings() {
+    async function saveCRSettings() {
+      if (!ensureCR()) return;
       const newM = document.getElementById('cr-marquee-input').value.trim();
       const newBg = document.getElementById('cr-wallpaper-url').value.trim();
       const newPass = document.getElementById('cr-new-passcode').value.trim();
 
-      if (newM) {
-        marqueeText = newM;
-        localStorage.setItem('plaxus_marquee', marqueeText);
-        document.getElementById('marquee-text-content').textContent = marqueeText;
-      }
-      if (newBg) {
-        userBg = newBg;
-        localStorage.setItem('plaxus_user_bg', userBg);
-        document.getElementById('custom-user-bg').style.backgroundImage = `url('${userBg}')`;
-      }
+      if (newBg && !safeUrl(newBg)) return toast('Wallpaper must be an http(s) image URL', true);
+      if (newPass && newPass.length < 4) return toast('Passcode must be at least 4 characters', true);
+
+      if (newM) marqueeText = newM;
+      userBg = newBg; // blank clears the wallpaper
+
+      if (!(await crSave(['marqueeText', 'userBg'], 'Settings saved for everyone ✓'))) return;
+
       if (newPass) {
-        crPasscode = newPass;
-        localStorage.setItem('plaxus_cr_passcode', crPasscode);
+        try {
+          await crCall({ op: 'set_passcode', newPasscode: newPass });
+          crPass = newPass;
+          sessionStorage.setItem('plaxus_cr_pass', crPass);
+          document.getElementById('cr-new-passcode').value = '';
+          toast('Settings and new passcode saved ✓');
+        } catch (e) { toast(e.message || 'Could not change passcode', true); return; }
       }
-      pushGlobalState();
+      document.getElementById('custom-user-bg').style.backgroundImage = userBg ? `url('${userBg}')` : 'none';
       closeModal('crSuiteModal');
-      alert("Settings saved.");
     }
 
     function closeModal(id) {
@@ -2824,9 +3142,7 @@
     // --- 19. CENTRAL RENDER DISPATCHER ---
     function renderEverything() {
       document.getElementById('marquee-text-content').textContent = marqueeText;
-      if (userBg) {
-        document.getElementById('custom-user-bg').style.backgroundImage = `url('${userBg}')`;
-      }
+      document.getElementById('custom-user-bg').style.backgroundImage = safeUrl(userBg) ? `url('${safeUrl(userBg)}')` : 'none';
       updateClock();
       try { renderTimetable(); } catch(e) { console.error('Timetable render error:', e); }
       try { renderScholars(); } catch(e) { console.error('Scholars render error:', e); }
@@ -2846,12 +3162,13 @@
 
     // --- 20. STARTUP DISPATCH ---
     document.addEventListener('DOMContentLoaded', () => {
+      applyRolePermissions();   // class link: strips every CR control from the page
       renderEverything();
-      applyRolePermissions();
-
-      if (isCRMode && sessionStorage.getItem('plaxus_cr_auth_ok') !== 'true') {
-        openCRAuthModal();
+      if (isCRMode) {
+        document.title = 'PLAXUS M25 — CR Desk';
+        if (!crPass) openCRAuthModal('login_only');
       }
+      startLivePolling();
     });
   </script>
 </body>
