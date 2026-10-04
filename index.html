@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <!-- LOCKED DESKTOP PROPORTIONS FOR ALL DEVICES -->
+  <!-- LOCKED DESKTOP CANVAS FOR PC & MOBILE (IDENTICAL VIEW ON ALL SCREENS) -->
   <meta name="viewport" content="width=1380, initial-scale=0.35, minimum-scale=0.2, maximum-scale=2.5, user-scalable=yes" />
   <title>PLAXUS M25 — Studio AB204 Editorial Monograph</title>
 
@@ -172,6 +172,7 @@
       letter-spacing: 2px;
     }
 
+    /* Fixed Ribbons & Blinking Marquees */
     .mag-ribbon {
       background: rgba(16, 20, 32, 0.85);
       border: 1px solid var(--card-border);
@@ -559,7 +560,7 @@
     .spotlight-avatar img { width: 100%; height: 100%; object-fit: cover; }
     .spotlight-name { font-family: var(--font-serif); font-size: 1.35rem; font-weight: 700; line-height: 1.2; }
 
-    /* Timetable Responsive Sheet */
+    /* Timetable Sheet */
     .timetable-editorial-sheet {
       background: linear-gradient(135deg, rgba(16, 20, 32, 0.75) 0%, rgba(10, 13, 21, 0.9) 100%);
       border: 1px solid var(--card-border);
@@ -652,7 +653,7 @@
       <div class="ribbon-tag" style="color:var(--accent-warm);"><span class="live-dot"></span> DISPATCH</div>
       <div class="ribbon-track">
         <span class="marquee-text-flow" id="marquee-text-content">
-          The best plans leave room to be lived in. • Department of Architecture & Planning, NIT Calicut • M.Plan Semester 3 Session in Studio AB204
+          World Habitat Day on 05-10-26, 10 AM onwards • Conference Hall • Department of Architecture & Planning, NIT Calicut
         </span>
       </div>
     </div>
@@ -690,8 +691,8 @@
       <div class="cockpit-panel">
         <div>
           <div class="cockpit-tag" style="color:var(--cyan);"><span class="live-dot" style="background:var(--cyan); box-shadow:0 0 10px var(--cyan);"></span>TODAY'S TIMETABLE LOAD</div>
-          <div class="cockpit-value-lead" id="cockpit-today-title">-- Scheduled Classes</div>
-          <div style="font-size:0.8rem; color:var(--text-2);" id="cockpit-today-desc">Evaluating studio schedule matrix...</div>
+          <div class="cockpit-value-lead" id="cockpit-today-title">Weekend Recess</div>
+          <div style="font-size:0.8rem; color:var(--text-2);" id="cockpit-today-desc">No scheduled lectures today. Studio AB204 open.</div>
         </div>
         <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px; font-family:var(--font-biomorph); font-size:0.72rem;">
           <span id="cockpit-today-dayname">Sunday</span><span style="color:var(--accent-warm);">LB: 01:00PM - 02:00PM</span>
@@ -701,8 +702,8 @@
       <div class="cockpit-panel" style="border-color: rgba(229,115,88,0.45); background: linear-gradient(135deg, rgba(229,115,88,0.12) 0%, rgba(13,16,27,0.88) 100%);">
         <div>
           <div class="cockpit-tag" style="color:var(--accent-warm);"><span class="live-dot"></span>THIS CURRENT HOUR</div>
-          <div class="cockpit-value-lead" id="cockpit-current-code">Evaluating...</div>
-          <div style="font-size:0.8rem; color:var(--text-2);" id="cockpit-current-time">Slot In Session</div>
+          <div class="cockpit-value-lead" id="cockpit-current-code">No Lecture</div>
+          <div style="font-size:0.8rem; color:var(--text-2);" id="cockpit-current-time">Weekend Recess</div>
         </div>
         <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px; font-family:var(--font-biomorph); font-size:0.72rem;">
           <span id="cockpit-current-room">Studio AB204</span><span style="color:#22c55e;" id="cockpit-current-status">LIVE NOW</span>
@@ -728,7 +729,7 @@
         <button class="mag-tab-btn active" onclick="switchMagSection('sec-overview', this)"><span>🏛 Studio Overview & Matrix</span></button>
         <button class="mag-tab-btn" onclick="switchMagSection('sec-scholars', this)"><span>👥 Scholar Portfolio Cards</span><span class="mag-pill-counter" id="scholar-badge-count">20</span></button>
         <button class="mag-tab-btn" onclick="switchMagSection('sec-guidelines', this)"><span>📐 Submission Dossiers</span><span class="mag-pill-counter" id="guidelines-badge-count">3</span></button>
-        <button class="mag-tab-btn" onclick="switchMagSection('sec-deadlines', this)"><span>⏳ Deadlines & Milestones</span><span class="mag-pill-counter" id="deadlines-badge-count" style="background:rgba(244,63,94,0.4);">3</span></button>
+        <button class="mag-tab-btn" onclick="switchMagSection('sec-deadlines', this)"><span>⏳ Deadlines & Milestones</span><span class="mag-pill-counter" id="deadlines-badge-count" style="background:rgba(244,63,94,0.4);">4</span></button>
         <button class="mag-tab-btn" onclick="switchMagSection('sec-creative', this)"><span>🎨 Creative Corner</span><span class="mag-pill-counter" id="creative-badge-count" style="background:rgba(56,189,248,0.35);">3</span></button>
         <button class="mag-tab-btn" onclick="switchMagSection('sec-blogs', this)"><span>✍️ Class Blogs & Reflections</span><span class="mag-pill-counter" id="blogs-badge-count" style="background:rgba(229,115,88,0.35);">2</span></button>
         <button class="mag-tab-btn" onclick="switchMagSection('sec-suggestions', this)"><span>💬 Suggestions & Responses</span><span class="mag-pill-counter" id="suggestions-badge-count" style="background:#22c55e;">2</span></button>
@@ -756,13 +757,13 @@
           <div style="display:flex; align-items:center; gap:16px; margin:10px 0 14px;">
             <div class="spotlight-avatar" id="spotlight-avatar">?</div>
             <div>
-              <div class="spotlight-name" id="spotlight-name">Loading...</div>
-              <div style="font-family:var(--font-biomorph); font-size:0.78rem; color:var(--accent-warm);" id="spotlight-roll">Roll No.</div>
-              <div style="font-size:0.75rem; color:#cbd5e1; margin-top:2px;" id="spotlight-dob">--</div>
+              <div class="spotlight-name" id="spotlight-name">Bhavi Chandrakar</div>
+              <div style="font-family:var(--font-biomorph); font-size:0.78rem; color:var(--accent-warm);" id="spotlight-roll">M250725AR</div>
+              <div style="font-size:0.75rem; color:#cbd5e1; margin-top:2px;" id="spotlight-dob">DOB: 07/10/2000</div>
             </div>
           </div>
           <div style="background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.08); clip-path:polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%); padding:8px 14px; display:flex; justify-content:space-between; align-items:center; font-size:0.82rem; margin-bottom:12px;">
-            <span id="spotlight-countdown">Calculating celebration...</span><span style="color:var(--accent-warm); font-weight:700;">🎂</span>
+            <span id="spotlight-countdown">In 3 days!</span><span style="color:var(--accent-warm); font-weight:700;">🎂</span>
           </div>
           <button class="btn-editorial" style="width:100%; justify-content:center; background:linear-gradient(135deg, #e57358, #c85a3b);" onclick="fireConfettiCannon()">🎉 Blast Confetti</button>
         </div>
@@ -916,8 +917,8 @@
             <p style="font-size:0.75rem; color:var(--text-2); font-family:var(--font-biomorph);" id="cal-month-title">October 2026</p>
           </div>
           <div style="display:flex; gap:10px; font-size:0.72rem; color:var(--text-2); font-family:var(--font-biomorph);">
-            <span style="display:flex; align-items:center; gap:4px;"><span class="pulsing-indicator" style="background:var(--accent); box-shadow:none;"></span> Notice</span>
-            <span style="display:flex; align-items:center; gap:4px;"><span class="pulsing-indicator red" style="box-shadow:none;"></span> Deadline</span>
+            <span style="display:flex; align-items:center; gap:4px;"><span class="dot-n"></span> Notice</span>
+            <span style="display:flex; align-items:center; gap:4px;"><span class="dot-d"></span> Deadline</span>
           </div>
         </div>
         <div class="cal-matrix" id="academic-calendar"></div>
@@ -981,26 +982,27 @@
     </div>
   </div>
 
+  <!-- CR MANAGEMENT SUITE MODAL -->
   <div class="modal-backdrop-editorial" id="crSuiteModal">
     <div class="modal-box-editorial" style="max-width:760px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
         <div>
-          <h3 style="font-family:var(--font-serif); font-size:1.55rem; font-weight:800;">⚙ CR Management & Editor Suite</h3>
-          <p style="font-size:0.78rem; color:var(--text-2); font-family:var(--font-biomorph);">Executive Studio Controls for Class Representatives & Admins</p>
+          <h3 style="font-family:var(--font-serif); font-size:1.55rem; font-weight:800;">⚙ CR Studio Management Hub</h3>
+          <p style="font-size:0.78rem; color:var(--text-2); font-family:var(--font-biomorph);">Executive Controls for Class Representatives & Admins</p>
         </div>
         <button class="btn-editorial" style="padding:4px 10px;" onclick="closeModal('crSuiteModal')">✕</button>
       </div>
 
-      <div style="display:flex; gap:8px; margin-bottom:20px; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:12px; overflow-x:auto;">
+      <div style="display:flex; gap:8px; margin-bottom:18px; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:12px; overflow-x:auto;">
         <button class="btn-editorial" onclick="switchCRTab('manage-deadlines')">⏳ Deadlines</button>
+        <button class="btn-editorial" onclick="switchCRTab('manage-notices')">📢 Notices</button>
         <button class="btn-editorial" onclick="switchCRTab('manage-guidelines')">📐 Profiles</button>
+        <button class="btn-editorial" onclick="switchCRTab('modify-tt')">📅 Timetable</button>
         <button class="btn-editorial" onclick="switchCRTab('manage-creative')">🎨 Creative</button>
         <button class="btn-editorial" onclick="switchCRTab('manage-blogs')">✍️ Blogs</button>
         <button class="btn-editorial" onclick="switchCRTab('manage-suggestions')">💬 Feed</button>
-        <button class="btn-editorial" onclick="switchCRTab('manage-notices')">📢 Notices</button>
-        <button class="btn-editorial" onclick="switchCRTab('modify-tt')">📅 Timetable</button>
-        <button class="btn-editorial" onclick="switchCRTab('broadcast')">💬 Broadcast Alert</button>
-        <button class="btn-editorial" onclick="switchCRTab('settings')">🎨 Theme & Sync</button>
+        <button class="btn-editorial" onclick="switchCRTab('broadcast')">📢 Broadcast</button>
+        <button class="btn-editorial" onclick="switchCRTab('settings')">🎨 Theme</button>
       </div>
 
       <!-- Deadlines -->
@@ -1112,14 +1114,15 @@
         <button class="btn-editorial" style="margin-top:14px;" onclick="saveDayTimetableChanges()">Save Schedule & Broadcast</button>
       </div>
 
-      <!-- Broadcast -->
+      <!-- Broadcast & Direct Sync -->
       <div id="cr-tab-broadcast" style="display:none;">
         <div style="background:rgba(0,0,0,0.3); padding:18px; border-radius:10px; border:1px solid var(--card-border);">
-          <h4 style="font-size:1.05rem; margin-bottom:10px; color:#4ade80;">📢 WhatsApp Broadcast</h4>
+          <h4 style="font-size:1.05rem; margin-bottom:10px; color:#4ade80;">📢 Broadcast & Instant Share Link</h4>
+          <p style="font-size:0.75rem; color:var(--text-2); margin-bottom:12px;">This updates the studio live feed and copies the exact URL to share with students.</p>
           <div class="form-unit"><textarea id="cr-wa-preview-text" class="input-field" rows="6"></textarea></div>
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px;">
-            <button class="btn-editorial" onclick="generateWhatsAppSummaryText()">🔄 Refresh</button>
-            <button class="btn-editorial btn-whatsapp" onclick="dispatchWhatsAppFromCR()">🚀 Send</button>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px; gap:8px;">
+            <button class="btn-editorial" onclick="copyClassShareLink()">🔗 Copy Class Link</button>
+            <button class="btn-editorial btn-whatsapp" onclick="dispatchWhatsAppFromCR()">🚀 Send WhatsApp Broadcast</button>
           </div>
         </div>
       </div>
@@ -1131,14 +1134,14 @@
         <div class="form-unit"><label>CR Passcode</label><input type="text" id="cr-new-passcode" class="input-field" placeholder="Change passcode..." /></div>
         <div style="display:flex; gap:10px; margin-top:16px;">
           <button class="btn-editorial" onclick="saveCRSettings()">Apply Settings</button>
-          <button class="btn-editorial" style="background:#dc2626;" onclick="forcePushCloudData()">Force Immediate Sync</button>
+          <button class="btn-editorial" style="background:#dc2626;" onclick="forcePushCloudData()">Manual Cloud Push</button>
         </div>
       </div>
     </div>
   </div>
 
   <script>
-    // --- 1. DEFAULT DATASET DEFINITIONS ---
+    // --- 1. DEFAULT STUDIO REGISTRY DATA ---
     const defaultScholars = [
       { roll: "M250203AR", name: "Aavani P Vas", dob: "17/12/2001", email: "aavani_m250203ar@nitc.ac.in", blood: "O+", phone: "" },
       { roll: "M250628AR", name: "Aishwarya S", dob: "22/10/2000", email: "aishwarya_m250628ar@nitc.ac.in", blood: "A+", phone: "" },
@@ -1299,8 +1302,7 @@
       { id: 4, title: "PS-III Studio Progress Review", subject: "PS-III", date: "2026-10-09", desc: "Full corridor development model review with jury." }
     ];
 
-    // --- 2. LOCAL PERSISTENT STORAGE ENGINE ---
-    // Reads directly from local cache and never resets unless completely uninitialized
+    // --- 2. RESILIENT LOCAL STORAGE ENGINE ---
     function safeLoad(key, defaults) {
       try {
         const raw = localStorage.getItem(key);
@@ -1336,76 +1338,55 @@
     let classPhoto = localStorage.getItem('plaxus_class_photo') || "";
     let userBg = localStorage.getItem('plaxus_user_bg') || "";
 
-    // --- 3. LIVE MULTI-USER CLOUD PERSISTENCE ---
-    // Guaranteed free, direct-read JSON buffer powered by Firebase Realtime DB
-    const FIREBASE_DB_URL = "https://plaxus-m25-nitc-default-rtdb.firebaseio.com/studio_state.json";
-    const broadcast = ('BroadcastChannel' in window) ? new BroadcastChannel('plaxus_sync_stream') : null;
-
-    if (broadcast) {
-      broadcast.onmessage = (event) => {
-        if (event.data && event.data.type === 'SYNC') {
-          syncDownCloudState();
+    // --- 3. DUAL-LAYER P2P WEBSOCKET & URL COMPRESSION SYNC ---
+    let gun = null;
+    let studioMesh = null;
+    try {
+      gun = Gun(['https://gun-manhattan.herokuapp.com/gun', 'https://relay.peer.ooo/gun']);
+      studioMesh = gun.get('nitc_plaxus_studio_ab204_m25_live_mesh_v3');
+      studioMesh.get('state').on((incoming) => {
+        if (incoming && typeof incoming === 'string') {
+          try {
+            const data = JSON.parse(incoming);
+            applyRemoteState(data);
+          } catch(e){}
         }
-      };
+      });
+    } catch(e) {
+      console.warn("P2P mesh initialising offline buffer.");
     }
 
-    async function syncDownCloudState() {
-      try {
-        const res = await fetch(FIREBASE_DB_URL + '?t=' + Date.now(), { cache: 'no-store' });
-        if (!res.ok) return false;
-        const data = await res.json();
-        if (data && data.scholars && data.scholars.length > 0) {
-          scholars = data.scholars;
-          timetable = data.timetable || timetable;
-          guidelines = data.guidelines || guidelines;
-          creativeWorks = data.creativeWorks || creativeWorks;
-          classBlogs = data.classBlogs || classBlogs;
-          suggestions = data.suggestions || suggestions;
-          announcements = data.announcements || announcements;
-          deadlines = data.deadlines || deadlines;
-          if (data.marqueeText) marqueeText = data.marqueeText;
-          pushGlobalState(false);
-          renderEverything();
-          const syncEl = document.getElementById('sync-status-indicator');
-          if (syncEl) syncEl.textContent = "● LIVE SYNC ACTIVE";
-          return true;
-        }
-      } catch (e) {
-        // Fall back gracefully to local storage
+    // Direct hash recovery on student devices
+    function checkIncomingUrlHash() {
+      if (window.location.hash && window.location.hash.startsWith('#sync=')) {
+        try {
+          const raw = decodeURIComponent(escape(atob(window.location.hash.replace('#sync=', ''))));
+          const state = JSON.parse(raw);
+          applyRemoteState(state);
+          window.history.replaceState(null, '', window.location.pathname);
+        } catch(e){}
       }
-      return false;
     }
+    checkIncomingUrlHash();
 
-    async function pushCloudState() {
+    function applyRemoteState(data) {
+      if (!data) return;
+      if (data.scholars && data.scholars.length) scholars = data.scholars;
+      if (data.timetable) timetable = data.timetable;
+      if (data.guidelines && data.guidelines.length) guidelines = data.guidelines;
+      if (data.creativeWorks && data.creativeWorks.length) creativeWorks = data.creativeWorks;
+      if (data.classBlogs && data.classBlogs.length) classBlogs = data.classBlogs;
+      if (data.suggestions && data.suggestions.length) suggestions = data.suggestions;
+      if (data.announcements && data.announcements.length) announcements = data.announcements;
+      if (data.deadlines && data.deadlines.length) deadlines = data.deadlines;
+      if (data.marqueeText) marqueeText = data.marqueeText;
+      pushGlobalState(false);
+      renderEverything();
       const syncEl = document.getElementById('sync-status-indicator');
-      if (syncEl) syncEl.textContent = "● SYNCING...";
-      const payload = {
-        scholars,
-        timetable,
-        guidelines,
-        creativeWorks,
-        classBlogs,
-        suggestions,
-        announcements,
-        deadlines,
-        marqueeText,
-        updatedAt: new Date().toISOString()
-      };
-
-      try {
-        await fetch(FIREBASE_DB_URL, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-        if (syncEl) syncEl.textContent = "● LIVE SYNC ACTIVE";
-        if (broadcast) broadcast.postMessage({ type: 'SYNC' });
-      } catch (err) {
-        if (syncEl) syncEl.textContent = "● SAVED LOCALLY";
-      }
+      if (syncEl) syncEl.textContent = "● LIVE SYNC ACTIVE";
     }
 
-    function pushGlobalState(shouldSyncToCloud = true) {
+    function pushGlobalState(broadcastToPeers = true) {
       try {
         localStorage.setItem('plaxus_scholars', JSON.stringify(scholars));
         localStorage.setItem('plaxus_timetable', JSON.stringify(timetable));
@@ -1415,18 +1396,44 @@
         localStorage.setItem('plaxus_suggestions', JSON.stringify(suggestions));
         localStorage.setItem('plaxus_announcements', JSON.stringify(announcements));
         localStorage.setItem('plaxus_deadlines', JSON.stringify(deadlines));
-        if (shouldSyncToCloud) pushCloudState();
+
+        if (broadcastToPeers && studioMesh) {
+          const payload = {
+            scholars, timetable, guidelines, creativeWorks,
+            classBlogs, suggestions, announcements, deadlines,
+            marqueeText, time: Date.now()
+          };
+          studioMesh.get('state').put(JSON.stringify(payload));
+        }
       } catch (e) {
         console.error("Storage write error:", e);
       }
     }
 
-    function forcePushCloudData() {
-      pushCloudState().then(() => alert("Changes forcibly broadcasted to all connected devices."));
+    function generateShareableClassUrl() {
+      const payload = {
+        scholars, timetable, guidelines, creativeWorks,
+        classBlogs, suggestions, announcements, deadlines,
+        marqueeText
+      };
+      const b64 = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
+      const baseUrl = window.location.origin + window.location.pathname;
+      return `${baseUrl}#sync=${b64}`;
     }
 
-    // Auto-poll every 3.5 seconds across all devices
-    setInterval(syncDownCloudState, 3500);
+    function copyClassShareLink() {
+      const link = generateShareableClassUrl();
+      navigator.clipboard.writeText(link).then(() => {
+        alert("Class Sync Link copied! Anyone who opens this link on their phone or PC will automatically receive all updated deadlines, notices, and timetable.");
+      }).catch(() => {
+        prompt("Copy this direct class link:", link);
+      });
+    }
+
+    function forcePushCloudData() {
+      pushGlobalState(true);
+      alert("State forcibly pushed to cloud network!");
+    }
 
     // --- 4. CURSOR ENGINE ---
     const cursorDot = document.getElementById('cursor-dot');
@@ -2642,9 +2649,9 @@
       let timetableSummary = slots.length ? slots.map((s, idx) => `Slot ${idx+1}: ${s}`).join('\n') : "No classes today.";
 
       let latestNotices = announcements.slice(0, 2).map(a => `• ${a.title}`).join('\n') || "None";
-      let latestDeadlines = deadlines.slice(0, 2).map(d => `• [${d.subject}] ${d.title} (Due: ${d.date})`).join('\n') || "None";
+      let latestDeadlines = deadlines.slice(0, 4).map(d => `• [${d.subject}] ${d.title} (Due: ${d.date})`).join('\n') || "None";
 
-      const text = `🏛 *PLAXUS M25 STUDIO MONOGRAPH DISPATCH*\n📅 *${todayDay}, ${todayDateStr}*\n\n📚 *Today's Timetable:*\n${timetableSummary}\n\n📢 *Notices:*\n${latestNotices}\n\n⏳ *Upcoming Deadlines:*\n${latestDeadlines}\n\n🔗 _View Studio Dashboard AB204_`;
+      const text = `🏛 *PLAXUS M25 STUDIO MONOGRAPH DISPATCH*\n📅 *${todayDay}, ${todayDateStr}*\n\n📚 *Today's Timetable:*\n${timetableSummary}\n\n📢 *Notices:*\n${latestNotices}\n\n⏳ *Upcoming Deadlines:*\n${latestDeadlines}\n\n🔗 _Open Studio Dashboard AB204:_`;
 
       const target = document.getElementById('cr-wa-preview-text');
       if (target) target.value = text;
@@ -2652,7 +2659,9 @@
     }
 
     function dispatchWhatsAppFromCR() {
-      const message = encodeURIComponent(document.getElementById('cr-wa-preview-text').value);
+      const text = generateWhatsAppSummaryText();
+      const link = generateShareableClassUrl();
+      const message = encodeURIComponent(`${text}\n${link}`);
       window.open(`https://api.whatsapp.com/send?text=${message}`, '_blank');
     }
 
@@ -2764,15 +2773,15 @@
       try { updateCockpitHours(); } catch(e) { console.error('Cockpit render error:', e); }
     }
 
-    // --- 19. STARTUP & SYNC INITIALIZATION ---
-    document.addEventListener('DOMContentLoaded', async () => {
-      // 1. Render immediately from local memory so there is ZERO screen flicker or reset
+    // --- 19. STARTUP & ROUTE DISPATCH ---
+    document.addEventListener('DOMContentLoaded', () => {
       renderEverything();
 
-      // 2. Fetch the latest live cloud state from Firebase in the background
-      await syncDownCloudState();
-
-      if (window.location.hash === '#cr-suite') openCRAuthModal();
+      // Check if user opened via the CR link
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('role') === 'cr' || window.location.hash.includes('cr-suite')) {
+        openCRAuthModal();
+      }
     });
   </script>
 </body>
