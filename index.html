@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <!-- LOCKED DESKTOP CANVAS FOR PC & MOBILE (IDENTICAL VIEW ON ALL SCREENS) -->
+  <!-- LOCKED DESKTOP CANVAS: MOBILE AND PC DISPLAY THE EXACT SAME 3-COLUMN LAYOUT -->
   <meta name="viewport" content="width=1380, initial-scale=0.35, minimum-scale=0.2, maximum-scale=2.5, user-scalable=yes" />
   <title>PLAXUS M25 — Studio AB204 Editorial Monograph</title>
 
@@ -42,6 +42,7 @@
 
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
+    /* HARD LOCKED PC WIDTH ENGINE (NO MOBILE COLLAPSING) */
     html {
       width: 100%;
       min-width: 1380px;
@@ -141,6 +142,21 @@
       width: 1380px;
       margin: 0 auto;
       padding: 24px 20px 80px;
+    }
+
+    .cr-executive-banner {
+      background: linear-gradient(90deg, #991b1b, #c2410c, #ea580c);
+      color: #fff;
+      padding: 10px 24px;
+      display: none;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-biomorph);
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+      clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+      margin-bottom: 14px;
+      box-shadow: 0 4px 20px rgba(234, 88, 12, 0.4);
     }
 
     .mag-plate {
@@ -418,7 +434,7 @@
     .btn-like { background: rgba(244, 63, 94, 0.12); border: 1px solid rgba(244, 63, 94, 0.35); color: #fda4af; padding: 5px 10px; font-size: 0.72rem; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; clip-path: polygon(5px 0, 100% 0, calc(100% - 5px) 100%, 0 100%); transition: transform 0.15s ease; }
     .btn-like:active { transform: scale(0.92); }
 
-    /* Cockpit Strip */
+    /* Cockpit Strip: 3-column PC Layout */
     .cockpit-strip {
       display: grid;
       grid-template-columns: 1.1fr 1fr 1.6fr;
@@ -478,7 +494,7 @@
     .tab-section { display: none; }
     .tab-section.active { display: block; }
 
-    /* Tri-Hub */
+    /* Tri-Hub: 3-column PC Layout */
     .tri-hub-editorial {
       display: grid;
       grid-template-columns: 1fr 1.25fr 1.2fr;
@@ -560,7 +576,7 @@
     .spotlight-avatar img { width: 100%; height: 100%; object-fit: cover; }
     .spotlight-name { font-family: var(--font-serif); font-size: 1.35rem; font-weight: 700; line-height: 1.2; }
 
-    /* Timetable Sheet */
+    /* Timetable Responsive Sheet */
     .timetable-editorial-sheet {
       background: linear-gradient(135deg, rgba(16, 20, 32, 0.75) 0%, rgba(10, 13, 21, 0.9) 100%);
       border: 1px solid var(--card-border);
@@ -640,6 +656,16 @@
   <canvas id="confetti-canvas"></canvas>
 
   <div class="viewport-container">
+    
+    <!-- EXCLUSIVE CR ACTIVE BANNER (ONLY DISPLAYED ON CR LINK) -->
+    <div class="cr-executive-banner" id="cr-top-deck-banner">
+      <div><strong>⚡ AB204 CR EXECUTIVE DESK ACTIVE</strong> — Real-Time Cloud Broadcasting Enabled</div>
+      <div style="display:flex; gap:10px;">
+        <button class="btn-editorial" style="background:#000; padding:4px 10px; font-size:0.7rem;" onclick="copyClassShareLink()">🔗 Copy Class Sync Link</button>
+        <button class="btn-editorial" style="background:#000; padding:4px 10px; font-size:0.7rem;" onclick="openCRSuiteModal()">⚙ Open CR Suite</button>
+      </div>
+    </div>
+
     <div class="folio-tape">
       <div class="folio-item"><span>Vol. III • Studio AB204 Monograph</span><span> • </span><span>M.Plan 2025–26</span></div>
       <div class="folio-item">
@@ -679,9 +705,9 @@
         <div>
           <div class="chrono-stamp-top"><span>Precision Chrono</span><span style="color:var(--accent);">AB204 Studio</span></div>
           <div class="chrono-display-large"><span id="chrono-hours-min">--:--</span><span class="chrono-seconds" id="chrono-sec">:00</span><span class="chrono-meridiem" id="chrono-ampm">AM</span></div>
-          <div class="chrono-date-banner" id="chrono-date-line">Sunday, October 4, 2026</div>
+          <div class="chrono-date-banner" id="chrono-date-line">Evaluating date...</div>
         </div>
-        <div class="chrono-controls">
+        <div class="chrono-controls" id="header-cr-controls" style="display:none;">
           <button class="btn-editorial btn-cr-lock" onclick="openCRAuthModal()"><span>🔒 CR Suite</span></button>
         </div>
       </div>
@@ -691,19 +717,19 @@
       <div class="cockpit-panel">
         <div>
           <div class="cockpit-tag" style="color:var(--cyan);"><span class="live-dot" style="background:var(--cyan); box-shadow:0 0 10px var(--cyan);"></span>TODAY'S TIMETABLE LOAD</div>
-          <div class="cockpit-value-lead" id="cockpit-today-title">Weekend Recess</div>
-          <div style="font-size:0.8rem; color:var(--text-2);" id="cockpit-today-desc">No scheduled lectures today. Studio AB204 open.</div>
+          <div class="cockpit-value-lead" id="cockpit-today-title">Evaluating classes...</div>
+          <div style="font-size:0.8rem; color:var(--text-2);" id="cockpit-today-desc">Evaluating studio schedule matrix...</div>
         </div>
         <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px; font-family:var(--font-biomorph); font-size:0.72rem;">
-          <span id="cockpit-today-dayname">Sunday</span><span style="color:var(--accent-warm);">LB: 01:00PM - 02:00PM</span>
+          <span id="cockpit-today-dayname">--</span><span style="color:var(--accent-warm);">LB: 01:00PM - 02:00PM</span>
         </div>
       </div>
 
       <div class="cockpit-panel" style="border-color: rgba(229,115,88,0.45); background: linear-gradient(135deg, rgba(229,115,88,0.12) 0%, rgba(13,16,27,0.88) 100%);">
         <div>
           <div class="cockpit-tag" style="color:var(--accent-warm);"><span class="live-dot"></span>THIS CURRENT HOUR</div>
-          <div class="cockpit-value-lead" id="cockpit-current-code">No Lecture</div>
-          <div style="font-size:0.8rem; color:var(--text-2);" id="cockpit-current-time">Weekend Recess</div>
+          <div class="cockpit-value-lead" id="cockpit-current-code">Evaluating...</div>
+          <div style="font-size:0.8rem; color:var(--text-2);" id="cockpit-current-time">Slot In Session</div>
         </div>
         <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px; font-family:var(--font-biomorph); font-size:0.72rem;">
           <span id="cockpit-current-room">Studio AB204</span><span style="color:#22c55e;" id="cockpit-current-status">LIVE NOW</span>
@@ -741,12 +767,24 @@
     <div id="sec-overview" class="tab-section active">
       <section class="tri-hub-editorial">
         <div class="hub-box">
-          <div class="hub-head"><span>Studio Notices</span><span style="font-family:var(--font-biomorph); font-size:0.75rem; color:var(--accent-warm);">AB204</span></div>
+          <div class="hub-head">
+            <span>Studio Notices</span>
+            <div style="display:flex; align-items:center; gap:6px;">
+              <span style="font-family:var(--font-biomorph); font-size:0.75rem; color:var(--accent-warm);">AB204</span>
+              <button class="btn-editorial cr-only-btn" style="padding:2px 8px; font-size:0.65rem;" onclick="openCRSuiteWithTab('manage-notices')">+ Post</button>
+            </div>
+          </div>
           <div class="hub-stream" id="announcements-list"></div>
         </div>
 
         <div class="hub-box">
-          <div class="hub-head"><span>Critical Submissions</span><span style="font-family:var(--font-biomorph); font-size:0.75rem; color:#f43f5e;">Sem 3</span></div>
+          <div class="hub-head">
+            <span>Critical Submissions</span>
+            <div style="display:flex; align-items:center; gap:6px;">
+              <span style="font-family:var(--font-biomorph); font-size:0.75rem; color:#f43f5e;">Sem 3</span>
+              <button class="btn-editorial cr-only-btn" style="padding:2px 8px; font-size:0.65rem;" onclick="openCRSuiteWithTab('manage-deadlines')">+ Add</button>
+            </div>
+          </div>
           <div class="hub-stream" id="deadlines-list-overview"></div>
         </div>
 
@@ -757,13 +795,13 @@
           <div style="display:flex; align-items:center; gap:16px; margin:10px 0 14px;">
             <div class="spotlight-avatar" id="spotlight-avatar">?</div>
             <div>
-              <div class="spotlight-name" id="spotlight-name">Bhavi Chandrakar</div>
-              <div style="font-family:var(--font-biomorph); font-size:0.78rem; color:var(--accent-warm);" id="spotlight-roll">M250725AR</div>
-              <div style="font-size:0.75rem; color:#cbd5e1; margin-top:2px;" id="spotlight-dob">DOB: 07/10/2000</div>
+              <div class="spotlight-name" id="spotlight-name">Scanning...</div>
+              <div style="font-family:var(--font-biomorph); font-size:0.78rem; color:var(--accent-warm);" id="spotlight-roll">Roll No.</div>
+              <div style="font-size:0.75rem; color:#cbd5e1; margin-top:2px;" id="spotlight-dob">--</div>
             </div>
           </div>
           <div style="background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.08); clip-path:polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%); padding:8px 14px; display:flex; justify-content:space-between; align-items:center; font-size:0.82rem; margin-bottom:12px;">
-            <span id="spotlight-countdown">In 3 days!</span><span style="color:var(--accent-warm); font-weight:700;">🎂</span>
+            <span id="spotlight-countdown">Calculating...</span><span style="color:var(--accent-warm); font-weight:700;">🎂</span>
           </div>
           <button class="btn-editorial" style="width:100%; justify-content:center; background:linear-gradient(135deg, #e57358, #c85a3b);" onclick="fireConfettiCannon()">🎉 Blast Confetti</button>
         </div>
@@ -782,6 +820,7 @@
             <button class="mag-tab-btn" style="padding:5px 12px; font-size:0.74rem;" onclick="setTimetableView('Wednesday', this)">Wednesday</button>
             <button class="mag-tab-btn" style="padding:5px 12px; font-size:0.74rem;" onclick="setTimetableView('Thursday', this)">Thursday</button>
             <button class="mag-tab-btn" style="padding:5px 12px; font-size:0.74rem;" onclick="setTimetableView('Friday', this)">Friday</button>
+            <button class="btn-editorial cr-only-btn" style="padding:4px 8px; font-size:0.7rem; margin-left:8px;" onclick="openCRSuiteWithTab('modify-tt')">✏ Edit Matrix</button>
           </div>
         </div>
 
@@ -829,7 +868,7 @@
             <h2 style="font-family:var(--font-serif); font-size:1.75rem; font-weight:700;">Studio Submission Dossiers & Protocols</h2>
             <p style="font-size:0.8rem; color:var(--text-2); font-family:var(--font-biomorph);">Curated architectural portfolios, drawing scales, cartographic criteria, and jury requirements</p>
           </div>
-          <button class="btn-editorial btn-cr-lock" onclick="triggerProtectedAction('openCRSuite')">⚙ Manage in CR Suite</button>
+          <button class="btn-editorial btn-cr-lock cr-only-btn" onclick="openCRSuiteWithTab('manage-guidelines')">⚙ Manage Dossiers</button>
         </div>
         <div class="dossier-grid" id="guidelines-container"></div>
       </div>
@@ -843,7 +882,7 @@
             <h2 style="font-family:var(--font-serif); font-size:1.75rem; font-weight:700;">Studio Milestone Radar</h2>
             <p style="font-size:0.8rem; color:var(--text-2); font-family:var(--font-biomorph);">Critical review dates, interim submissions, and academic milestones</p>
           </div>
-          <button class="btn-editorial btn-cr-lock" onclick="triggerProtectedAction('openCRSuite')">⚙ Manage Deadlines</button>
+          <button class="btn-editorial btn-cr-lock cr-only-btn" onclick="openCRSuiteWithTab('manage-deadlines')">⚙ Manage Deadlines</button>
         </div>
         <div class="radar-deadline-grid" id="deadlines-full-grid"></div>
       </div>
@@ -857,7 +896,7 @@
             <h2 style="font-family:var(--font-serif); font-size:1.75rem; font-weight:700;">Creative Corner & Works Display</h2>
             <p style="font-size:0.8rem; color:var(--text-2); font-family:var(--font-biomorph);">Regional cartography, spatial analytics, urban design renderings, and masterplan sheets by Batch M25</p>
           </div>
-          <button class="btn-editorial btn-cr-lock" onclick="triggerProtectedAction('openCRSuiteCreative')">+ Pin Creative Work</button>
+          <button class="btn-editorial btn-cr-lock cr-only-btn" onclick="openCRSuiteWithTab('manage-creative')">+ Pin Creative Work</button>
         </div>
         <div class="creative-corner-grid" id="creative-corner-grid" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:22px;"></div>
       </div>
@@ -871,7 +910,7 @@
             <h2 style="font-family:var(--font-serif); font-size:1.75rem; font-weight:700;">Class Blogs & Urban Reflections</h2>
             <p style="font-size:0.8rem; color:var(--text-2); font-family:var(--font-biomorph);">Scholarly essays, field visit debriefs, transit observations, and spatial musings from AB204 studio</p>
           </div>
-          <button class="btn-editorial btn-cr-lock" onclick="triggerProtectedAction('openCRSuiteBlog')">+ Publish Article</button>
+          <button class="btn-editorial btn-cr-lock cr-only-btn" onclick="openCRSuiteWithTab('manage-blogs')">+ Publish Article</button>
         </div>
         <div class="blogs-editorial-stream" id="class-blogs-stream" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:24px;"></div>
       </div>
@@ -899,13 +938,13 @@
             <h3 style="font-family:var(--font-serif); font-size:1.45rem; font-weight:700;">Batch M25 Studio Portrait</h3>
             <p style="font-size:0.75rem; color:var(--text-2); font-family:var(--font-biomorph);" id="class-photo-caption">Department of Architecture & Planning, NIT Calicut</p>
           </div>
-          <button class="btn-editorial btn-cr-lock" onclick="triggerProtectedAction('uploadClassPhoto')">📷 Update Portrait</button>
+          <button class="btn-editorial btn-cr-lock cr-only-btn" onclick="triggerProtectedAction('uploadClassPhoto')">📷 Update Portrait</button>
           <input type="file" id="class-photo-input" accept="image/*" style="display:none;" onchange="handleClassPhotoUpload(event)" />
         </div>
         <div class="class-portrait-frame">
           <img id="class-portrait-img" src="" alt="Batch M25 Class Portrait" style="display:none;" />
           <div id="class-photo-placeholder" style="text-align:center; color:var(--text-2); font-size:0.82rem;">
-            No official class portrait pinned yet.<br>Click "Update Portrait" in CR suite to upload.
+            No official class portrait pinned yet.
           </div>
         </div>
       </div>
@@ -1002,7 +1041,7 @@
         <button class="btn-editorial" onclick="switchCRTab('manage-blogs')">✍️ Blogs</button>
         <button class="btn-editorial" onclick="switchCRTab('manage-suggestions')">💬 Feed</button>
         <button class="btn-editorial" onclick="switchCRTab('broadcast')">📢 Broadcast</button>
-        <button class="btn-editorial" onclick="switchCRTab('settings')">🎨 Theme</button>
+        <button class="btn-editorial" onclick="switchCRTab('settings')">🎨 Settings</button>
       </div>
 
       <!-- Deadlines -->
@@ -1018,7 +1057,7 @@
           <div class="form-unit"><label>Description</label><input type="text" id="cr-deadline-desc" class="input-field" placeholder="Details..." /></div>
           <div style="display:flex; gap:10px; justify-content:flex-end;">
             <button class="btn-editorial" style="background:transparent; display:none;" id="cancel-deadline-edit-btn" onclick="resetDeadlineForm()">Clear</button>
-            <button class="btn-editorial" onclick="saveOrUpdateDeadline()" id="save-deadline-btn">Save & Broadcast</button>
+            <button class="btn-editorial" onclick="saveOrUpdateDeadline()" id="save-deadline-btn">Save & Sync</button>
           </div>
         </div>
         <h4 style="font-size:0.9rem; margin-bottom:10px; color:var(--text-2); font-family:var(--font-biomorph);">Existing Deadlines</h4>
@@ -1039,7 +1078,7 @@
           <div class="form-unit"><label>Instructions</label><textarea id="cr-guide-body" class="input-field" rows="3" placeholder="Details..."></textarea></div>
           <div style="display:flex; gap:10px; justify-content:flex-end;">
             <button class="btn-editorial" style="background:transparent; display:none;" id="cancel-guide-edit-btn" onclick="resetGuidelineForm()">Clear</button>
-            <button class="btn-editorial" onclick="saveOrUpdateGuideline()" id="save-guide-btn">Save & Broadcast</button>
+            <button class="btn-editorial" onclick="saveOrUpdateGuideline()" id="save-guide-btn">Save & Sync</button>
           </div>
         </div>
         <h4 style="font-size:0.9rem; margin-bottom:10px; color:var(--text-2); font-family:var(--font-biomorph);">Existing Dossiers</h4>
@@ -1057,7 +1096,7 @@
           </div>
           <div class="form-unit"><label>Image URL</label><input type="text" id="cr-creative-image" class="input-field" placeholder="https://..." /></div>
           <div class="form-unit"><label>Description</label><textarea id="cr-creative-desc" class="input-field" rows="2" placeholder="Note..."></textarea></div>
-          <div style="display:flex; justify-content:flex-end;"><button class="btn-editorial" onclick="saveCreativeWork()">Pin Work & Broadcast</button></div>
+          <div style="display:flex; justify-content:flex-end;"><button class="btn-editorial" onclick="saveCreativeWork()">Pin Work & Sync</button></div>
         </div>
         <div id="cr-creative-list-manager" style="max-height:220px; overflow-y:auto;"></div>
       </div>
@@ -1072,7 +1111,7 @@
             <div class="form-unit"><label>Topic Tag</label><input type="text" id="cr-blog-tag" class="input-field" placeholder="Tag..." /></div>
           </div>
           <div class="form-unit"><label>Body Content</label><textarea id="cr-blog-body" class="input-field" rows="4" placeholder="Essay..."></textarea></div>
-          <div style="display:flex; justify-content:flex-end;"><button class="btn-editorial" onclick="saveBlogPost()">Publish & Broadcast</button></div>
+          <div style="display:flex; justify-content:flex-end;"><button class="btn-editorial" onclick="saveBlogPost()">Publish & Sync</button></div>
         </div>
         <div id="cr-blogs-list-manager" style="max-height:220px; overflow-y:auto;"></div>
       </div>
@@ -1092,7 +1131,7 @@
           <div class="form-unit"><label>Details</label><textarea id="cr-notice-desc" class="input-field" rows="2" placeholder="Details..."></textarea></div>
           <div style="display:flex; gap:10px; justify-content:flex-end;">
             <button class="btn-editorial" onclick="resetNoticeForm()">Clear</button>
-            <button class="btn-editorial" onclick="saveOrUpdateNotice()">Save & Broadcast</button>
+            <button class="btn-editorial" onclick="saveOrUpdateNotice()">Save & Sync</button>
           </div>
         </div>
         <div id="cr-notices-list-manager" style="max-height:220px; overflow-y:auto;"></div>
@@ -1111,17 +1150,17 @@
           </select>
         </div>
         <div id="cr-tt-slots-editor" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:10px;"></div>
-        <button class="btn-editorial" style="margin-top:14px;" onclick="saveDayTimetableChanges()">Save Schedule & Broadcast</button>
+        <button class="btn-editorial" style="margin-top:14px;" onclick="saveDayTimetableChanges()">Save Schedule & Sync</button>
       </div>
 
-      <!-- Broadcast & Direct Sync -->
+      <!-- Broadcast & Instant Class Link Generator -->
       <div id="cr-tab-broadcast" style="display:none;">
         <div style="background:rgba(0,0,0,0.3); padding:18px; border-radius:10px; border:1px solid var(--card-border);">
-          <h4 style="font-size:1.05rem; margin-bottom:10px; color:#4ade80;">📢 Broadcast & Instant Share Link</h4>
-          <p style="font-size:0.75rem; color:var(--text-2); margin-bottom:12px;">This updates the studio live feed and copies the exact URL to share with students.</p>
+          <h4 style="font-size:1.05rem; margin-bottom:10px; color:#4ade80;">📢 Instant Class Sharing & WhatsApp Broadcast</h4>
+          <p style="font-size:0.75rem; color:var(--text-2); margin-bottom:12px;">Generates a live synchronization dispatch for classmates. When students open this link on their phones or PCs, it automatically loads all updated notices, timetable slots, and deadlines.</p>
           <div class="form-unit"><textarea id="cr-wa-preview-text" class="input-field" rows="6"></textarea></div>
           <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px; gap:8px;">
-            <button class="btn-editorial" onclick="copyClassShareLink()">🔗 Copy Class Link</button>
+            <button class="btn-editorial" onclick="copyClassShareLink()">🔗 Copy Class Sync Link</button>
             <button class="btn-editorial btn-whatsapp" onclick="dispatchWhatsAppFromCR()">🚀 Send WhatsApp Broadcast</button>
           </div>
         </div>
@@ -1132,10 +1171,7 @@
         <div class="form-unit"><label>Marquee Dispatch Text</label><input type="text" id="cr-marquee-input" class="input-field" /></div>
         <div class="form-unit"><label>Wallpaper URL</label><input type="text" id="cr-wallpaper-url" class="input-field" placeholder="https://..." /></div>
         <div class="form-unit"><label>CR Passcode</label><input type="text" id="cr-new-passcode" class="input-field" placeholder="Change passcode..." /></div>
-        <div style="display:flex; gap:10px; margin-top:16px;">
-          <button class="btn-editorial" onclick="saveCRSettings()">Apply Settings</button>
-          <button class="btn-editorial" style="background:#dc2626;" onclick="forcePushCloudData()">Manual Cloud Push</button>
-        </div>
+        <button class="btn-editorial" onclick="saveCRSettings()">Apply Settings</button>
       </div>
     </div>
   </div>
@@ -1337,40 +1373,46 @@
     let marqueeText = localStorage.getItem('plaxus_marquee') || "World Habitat Day on 05-10-26, 10 AM onwards • Conference Hall • Department of Architecture & Planning, NIT Calicut";
     let classPhoto = localStorage.getItem('plaxus_class_photo') || "";
     let userBg = localStorage.getItem('plaxus_user_bg') || "";
+    let lastLocalEditTimestamp = parseInt(localStorage.getItem('plaxus_last_timestamp') || '0', 10);
 
-    // --- 3. DUAL-LAYER P2P WEBSOCKET & URL COMPRESSION SYNC ---
-    let gun = null;
-    let studioMesh = null;
-    try {
-      gun = Gun(['https://gun-manhattan.herokuapp.com/gun', 'https://relay.peer.ooo/gun']);
-      studioMesh = gun.get('nitc_plaxus_studio_ab204_m25_live_mesh_v3');
-      studioMesh.get('state').on((incoming) => {
-        if (incoming && typeof incoming === 'string') {
-          try {
-            const data = JSON.parse(incoming);
-            applyRemoteState(data);
-          } catch(e){}
-        }
-      });
-    } catch(e) {
-      console.warn("P2P mesh initialising offline buffer.");
+    // --- 3. DUAL-LINK ROLE DETECTION ---
+    const urlParams = new URLSearchParams(window.location.search);
+    const isCRMode = (urlParams.get('role') === 'cr' || window.location.hash.includes('cr-suite'));
+
+    function applyRolePermissions() {
+      const topBanner = document.getElementById('cr-top-deck-banner');
+      const headerControls = document.getElementById('header-cr-controls');
+      const crOnlyButtons = document.querySelectorAll('.cr-only-btn');
+
+      if (isCRMode) {
+        if (topBanner) topBanner.style.display = 'flex';
+        if (headerControls) headerControls.style.display = 'flex';
+        crOnlyButtons.forEach(btn => btn.style.display = 'inline-flex');
+      } else {
+        if (topBanner) topBanner.style.display = 'none';
+        if (headerControls) headerControls.style.display = 'none';
+        crOnlyButtons.forEach(btn => btn.style.display = 'none');
+      }
     }
 
-    // Direct hash recovery on student devices
+    // --- 4. RELIABLE SYNC & STATE BROADCAST ENGINE ---
+    // Reads URL-compressed state token on student click
     function checkIncomingUrlHash() {
       if (window.location.hash && window.location.hash.startsWith('#sync=')) {
         try {
           const raw = decodeURIComponent(escape(atob(window.location.hash.replace('#sync=', ''))));
           const state = JSON.parse(raw);
-          applyRemoteState(state);
-          window.history.replaceState(null, '', window.location.pathname);
+          applyRemoteState(state, true);
+          window.history.replaceState(null, '', window.location.pathname + (isCRMode ? '?role=cr' : ''));
         } catch(e){}
       }
     }
     checkIncomingUrlHash();
 
-    function applyRemoteState(data) {
+    function applyRemoteState(data, force = false) {
       if (!data) return;
+      if (!force && data.time && data.time <= lastLocalEditTimestamp) return;
+
       if (data.scholars && data.scholars.length) scholars = data.scholars;
       if (data.timetable) timetable = data.timetable;
       if (data.guidelines && data.guidelines.length) guidelines = data.guidelines;
@@ -1380,14 +1422,25 @@
       if (data.announcements && data.announcements.length) announcements = data.announcements;
       if (data.deadlines && data.deadlines.length) deadlines = data.deadlines;
       if (data.marqueeText) marqueeText = data.marqueeText;
+      if (data.time) {
+        lastLocalEditTimestamp = data.time;
+        localStorage.setItem('plaxus_last_timestamp', String(data.time));
+      }
+
       pushGlobalState(false);
       renderEverything();
       const syncEl = document.getElementById('sync-status-indicator');
       if (syncEl) syncEl.textContent = "● LIVE SYNC ACTIVE";
     }
 
-    function pushGlobalState(broadcastToPeers = true) {
+    function pushGlobalState(broadcast = true) {
       try {
+        const timestamp = Date.now();
+        if (broadcast) {
+          lastLocalEditTimestamp = timestamp;
+          localStorage.setItem('plaxus_last_timestamp', String(timestamp));
+        }
+
         localStorage.setItem('plaxus_scholars', JSON.stringify(scholars));
         localStorage.setItem('plaxus_timetable', JSON.stringify(timetable));
         localStorage.setItem('plaxus_guidelines', JSON.stringify(guidelines));
@@ -1397,45 +1450,52 @@
         localStorage.setItem('plaxus_announcements', JSON.stringify(announcements));
         localStorage.setItem('plaxus_deadlines', JSON.stringify(deadlines));
 
-        if (broadcastToPeers && studioMesh) {
-          const payload = {
-            scholars, timetable, guidelines, creativeWorks,
-            classBlogs, suggestions, announcements, deadlines,
-            marqueeText, time: Date.now()
-          };
-          studioMesh.get('state').put(JSON.stringify(payload));
+        // Sync via window broadcast channel if open across local browser tabs
+        if (window.BroadcastChannel) {
+          const bc = new BroadcastChannel('plaxus_internal_bus');
+          bc.postMessage({ type: 'SYNC', time: timestamp });
         }
       } catch (e) {
         console.error("Storage write error:", e);
       }
     }
 
+    if (window.BroadcastChannel) {
+      const bc = new BroadcastChannel('plaxus_internal_bus');
+      bc.onmessage = () => {
+        scholars = safeLoad('plaxus_scholars', defaultScholars);
+        timetable = safeLoad('plaxus_timetable', defaultTimetable);
+        guidelines = safeLoad('plaxus_guidelines', defaultGuidelines);
+        creativeWorks = safeLoad('plaxus_creative_works', defaultCreativeWorks);
+        classBlogs = safeLoad('plaxus_class_blogs', defaultClassBlogs);
+        suggestions = safeLoad('plaxus_suggestions', defaultSuggestions);
+        announcements = safeLoad('plaxus_announcements', defaultAnnouncements);
+        deadlines = safeLoad('plaxus_deadlines', defaultDeadlines);
+        renderEverything();
+      };
+    }
+
     function generateShareableClassUrl() {
       const payload = {
         scholars, timetable, guidelines, creativeWorks,
         classBlogs, suggestions, announcements, deadlines,
-        marqueeText
+        marqueeText, time: Date.now()
       };
       const b64 = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
-      const baseUrl = window.location.origin + window.location.pathname;
+      const baseUrl = "https://plaxusdb26.netlify.app/";
       return `${baseUrl}#sync=${b64}`;
     }
 
     function copyClassShareLink() {
       const link = generateShareableClassUrl();
       navigator.clipboard.writeText(link).then(() => {
-        alert("Class Sync Link copied! Anyone who opens this link on their phone or PC will automatically receive all updated deadlines, notices, and timetable.");
+        alert("Class Sync Link copied! Share this link to WhatsApp so any student who taps it receives the exact updated dashboard on their phone or PC.");
       }).catch(() => {
-        prompt("Copy this direct class link:", link);
+        prompt("Copy this direct class sync link:", link);
       });
     }
 
-    function forcePushCloudData() {
-      pushGlobalState(true);
-      alert("State forcibly pushed to cloud network!");
-    }
-
-    // --- 4. CURSOR ENGINE ---
+    // --- 5. CURSOR ENGINE ---
     const cursorDot = document.getElementById('cursor-dot');
     const cursorRing = document.getElementById('cursor-ring');
     let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
@@ -1473,7 +1533,7 @@
       }
     });
 
-    // --- 5. CLOCK & COCKPIT TIMETABLE MATRIX ---
+    // --- 6. CLOCK & COCKPIT TIMETABLE MATRIX ---
     function updateClock() {
       const now = new Date();
       let hours = now.getHours();
@@ -1601,7 +1661,7 @@
     }
     setInterval(updateCockpitHours, 30000);
 
-    // --- 6. TAB SLIDER & NAVIGATION ---
+    // --- 7. TAB SLIDER & NAVIGATION ---
     function scrollTabsNav(offset) {
       const slider = document.getElementById('mag-tab-slider');
       if (slider) slider.scrollBy({ left: offset, behavior: 'smooth' });
@@ -1615,7 +1675,7 @@
       if (btn) btn.classList.add('active');
     }
 
-    // --- 7. MARQUEE & RADAR ALERTS ---
+    // --- 8. MARQUEE & RADAR ALERTS ---
     function updateBlinkingRemindersMarquee() {
       const parts = [];
       if (deadlines && deadlines.length) {
@@ -1644,7 +1704,7 @@
       if (document.getElementById('suggestions-badge-count')) document.getElementById('suggestions-badge-count').textContent = suggestions.length;
     }
 
-    // --- 8. TIMETABLE MATRIX ---
+    // --- 9. TIMETABLE MATRIX ---
     const daysOrder = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
     let currentFilter = 'all';
 
@@ -1695,7 +1755,7 @@
       renderTimetable();
     }
 
-    // --- 9. SCHOLARS REGISTRY ---
+    // --- 10. SCHOLARS REGISTRY ---
     function renderScholars(list = scholars) {
       const container = document.getElementById('scholars-grid');
       if (!container) return;
@@ -1788,7 +1848,7 @@
       renderScholars(filtered);
     }
 
-    // --- 10. SUBMISSION DOSSIERS ---
+    // --- 11. SUBMISSION DOSSIERS ---
     function renderGuidelines() {
       const container = document.getElementById('guidelines-container');
       if (!container) return;
@@ -1810,16 +1870,17 @@
             </div>
             <div style="display:flex; justify-content:space-between; align-items:center; padding-top:10px; border-top:1px solid rgba(255,255,255,0.06);">
               <span style="font-size:0.72rem; color:var(--text-2); font-family:var(--font-biomorph);">AB204 Studio</span>
-              <button class="btn-editorial" style="padding:4px 10px; font-size:0.72rem;" onclick="triggerProtectedAction('edit_guide_' + ${g.id})">Edit</button>
+              <button class="btn-editorial cr-only-btn" style="padding:4px 10px; font-size:0.72rem;" onclick="triggerProtectedAction('edit_guide_' + ${g.id})">Edit</button>
             </div>
           </div>
         </div>
       `).join('');
       const badge = document.getElementById('guidelines-badge-count');
       if (badge) badge.textContent = guidelines.length;
+      applyRolePermissions();
     }
 
-    // --- 11. DEADLINES RADAR ---
+    // --- 12. DEADLINES RADAR ---
     function renderDeadlinesTab() {
       const grid = document.getElementById('deadlines-full-grid');
       if (!grid) return;
@@ -1846,7 +1907,7 @@
               </div>
               <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
                 <span style="font-size:0.72rem; color:var(--text-2); font-family:var(--font-biomorph);">AB204 Studio</span>
-                <button class="btn-editorial" style="padding:4px 8px; font-size:0.7rem;" onclick="triggerProtectedAction('edit_deadline_' + ${d.id})">✏ Modify</button>
+                <button class="btn-editorial cr-only-btn" style="padding:4px 8px; font-size:0.7rem;" onclick="triggerProtectedAction('edit_deadline_' + ${d.id})">✏ Modify</button>
               </div>
             </div>
           </div>
@@ -1854,9 +1915,10 @@
       }).join('');
       const badge = document.getElementById('deadlines-badge-count');
       if (badge) badge.textContent = deadlines.length;
+      applyRolePermissions();
     }
 
-    // --- 12. CREATIVE CORNER ---
+    // --- 13. CREATIVE CORNER ---
     function renderCreativeCorner() {
       const container = document.getElementById('creative-corner-grid');
       if (!container) return;
@@ -1894,7 +1956,7 @@
       if (countEl) countEl.textContent = work.likes;
     }
 
-    // --- 13. CLASS BLOGS ---
+    // --- 14. CLASS BLOGS ---
     function renderClassBlogs() {
       const container = document.getElementById('class-blogs-stream');
       if (!container) return;
@@ -1940,7 +2002,7 @@
       document.getElementById('blogReaderModal').style.display = 'flex';
     }
 
-    // --- 14. SUGGESTIONS FEED ---
+    // --- 15. SUGGESTIONS FEED ---
     function renderSuggestionsFeed() {
       const container = document.getElementById('suggestions-feed-container');
       if (!container) return;
@@ -2064,7 +2126,7 @@
       updateBlinkingRemindersMarquee();
     }
 
-    // --- 15. BIRTHDAY SPOTLIGHT & HUB ---
+    // --- 16. BIRTHDAY SPOTLIGHT & HUB ---
     function updateBirthdaySpotlight() {
       const now = new Date();
       const curYear = now.getFullYear();
@@ -2133,7 +2195,7 @@
       }
     }
 
-    // --- 16. CLASS PORTRAIT & CALENDAR ---
+    // --- 17. CLASS PORTRAIT & CALENDAR ---
     function loadClassPhoto() {
       const img = document.getElementById('class-portrait-img');
       const placeholder = document.getElementById('class-photo-placeholder');
@@ -2219,11 +2281,15 @@
       infoBox.innerHTML = html;
     }
 
-    // --- 17. CR SUITE ACTIONS & MODALS ---
+    // --- 18. CR SUITE ACTIONS & MODALS ---
     let pendingAction = null;
 
     function openCRAuthModal(action = null) {
       pendingAction = action;
+      if (sessionStorage.getItem('plaxus_cr_auth_ok') === 'true') {
+        proceedToCRAction();
+        return;
+      }
       document.getElementById('cr-passcode-input').value = '';
       document.getElementById('cr-auth-error').style.display = 'none';
       document.getElementById('crAuthModal').style.display = 'flex';
@@ -2232,35 +2298,39 @@
     function verifyCRAuth() {
       const entered = document.getElementById('cr-passcode-input').value;
       if (entered === crPasscode || entered === '2026' || entered === 'm25nitc') {
+        sessionStorage.setItem('plaxus_cr_auth_ok', 'true');
         closeModal('crAuthModal');
-        if (pendingAction === 'uploadClassPhoto') {
-          document.getElementById('class-photo-input').click();
-        } else if (pendingAction === 'openCRSuiteCreative') {
-          openCRSuiteModal();
-          switchCRTab('manage-creative');
-        } else if (pendingAction === 'openCRSuiteBlog') {
-          openCRSuiteModal();
-          switchCRTab('manage-blogs');
-        } else if (pendingAction && pendingAction.startsWith('edit_deadline_')) {
-          const id = parseInt(pendingAction.replace('edit_deadline_', ''), 10);
-          openCRSuiteModal();
-          switchCRTab('manage-deadlines');
-          loadDeadlineForEdit(id);
-        } else if (pendingAction && pendingAction.startsWith('edit_guide_')) {
-          const id = parseInt(pendingAction.replace('edit_guide_', ''), 10);
-          openCRSuiteModal();
-          switchCRTab('manage-guidelines');
-          loadGuidelineForEdit(id);
-        } else {
-          openCRSuiteModal();
-        }
+        proceedToCRAction();
       } else {
         document.getElementById('cr-auth-error').style.display = 'block';
       }
     }
 
+    function proceedToCRAction() {
+      if (pendingAction === 'uploadClassPhoto') {
+        document.getElementById('class-photo-input').click();
+      } else if (pendingAction && pendingAction.startsWith('edit_deadline_')) {
+        const id = parseInt(pendingAction.replace('edit_deadline_', ''), 10);
+        openCRSuiteModal();
+        switchCRTab('manage-deadlines');
+        loadDeadlineForEdit(id);
+      } else if (pendingAction && pendingAction.startsWith('edit_guide_')) {
+        const id = parseInt(pendingAction.replace('edit_guide_', ''), 10);
+        openCRSuiteModal();
+        switchCRTab('manage-guidelines');
+        loadGuidelineForEdit(id);
+      } else {
+        openCRSuiteModal();
+      }
+    }
+
     function triggerProtectedAction(action) {
       openCRAuthModal(action);
+    }
+
+    function openCRSuiteWithTab(tabName) {
+      openCRAuthModal();
+      setTimeout(() => switchCRTab(tabName), 50);
     }
 
     function openCRSuiteModal() {
@@ -2326,7 +2396,7 @@
       document.getElementById('cr-deadline-date').value = item.date;
       document.getElementById('cr-deadline-desc').value = item.desc || '';
       document.getElementById('deadline-form-heading').textContent = "Modify Deadline";
-      document.getElementById('save-deadline-btn').textContent = "Update & Broadcast";
+      document.getElementById('save-deadline-btn').textContent = "Update & Sync";
       document.getElementById('cancel-deadline-edit-btn').style.display = 'inline-block';
     }
 
@@ -2336,7 +2406,7 @@
       document.getElementById('cr-deadline-date').value = '';
       document.getElementById('cr-deadline-desc').value = '';
       document.getElementById('deadline-form-heading').textContent = "Create / Modify Deadline";
-      document.getElementById('save-deadline-btn').textContent = "Save & Broadcast";
+      document.getElementById('save-deadline-btn').textContent = "Save & Sync";
       document.getElementById('cancel-deadline-edit-btn').style.display = 'none';
     }
 
@@ -2402,7 +2472,7 @@
       document.getElementById('cr-guide-specs').value = (item.specs || []).join(', ');
       document.getElementById('cr-guide-body').value = item.body;
       document.getElementById('guideline-form-heading').textContent = "Modify Dossier";
-      document.getElementById('save-guide-btn').textContent = "Update & Broadcast";
+      document.getElementById('save-guide-btn').textContent = "Update & Sync";
       document.getElementById('cancel-guide-edit-btn').style.display = 'inline-block';
     }
 
@@ -2413,7 +2483,7 @@
       document.getElementById('cr-guide-specs').value = '';
       document.getElementById('cr-guide-body').value = '';
       document.getElementById('guideline-form-heading').textContent = "Create / Modify Dossier";
-      document.getElementById('save-guide-btn').textContent = "Save & Broadcast";
+      document.getElementById('save-guide-btn').textContent = "Save & Sync";
       document.getElementById('cancel-guide-edit-btn').style.display = 'none';
     }
 
@@ -2686,7 +2756,7 @@
       }
       pushGlobalState();
       closeModal('crSuiteModal');
-      alert("Settings saved and synced across studio devices.");
+      alert("Settings saved.");
     }
 
     function closeModal(id) {
@@ -2751,7 +2821,7 @@
       );
     }
 
-    // --- 18. CENTRAL RENDER DISPATCHER ---
+    // --- 19. CENTRAL RENDER DISPATCHER ---
     function renderEverything() {
       document.getElementById('marquee-text-content').textContent = marqueeText;
       if (userBg) {
@@ -2771,15 +2841,15 @@
       try { renderAcademicCalendar(); } catch(e) { console.error('Calendar render error:', e); }
       try { updateBlinkingRemindersMarquee(); } catch(e) { console.error('Marquee render error:', e); }
       try { updateCockpitHours(); } catch(e) { console.error('Cockpit render error:', e); }
+      applyRolePermissions();
     }
 
-    // --- 19. STARTUP & ROUTE DISPATCH ---
+    // --- 20. STARTUP DISPATCH ---
     document.addEventListener('DOMContentLoaded', () => {
       renderEverything();
+      applyRolePermissions();
 
-      // Check if user opened via the CR link
-      const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('role') === 'cr' || window.location.hash.includes('cr-suite')) {
+      if (isCRMode && sessionStorage.getItem('plaxus_cr_auth_ok') !== 'true') {
         openCRAuthModal();
       }
     });
