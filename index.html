@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <!-- LOCKED DESKTOP CANVAS FOR ALL DEVICES (PC AND MOBILE IDENTICAL VIEW) -->
+  <!-- LOCKED DESKTOP PROPORTIONS FOR ALL DEVICES -->
   <meta name="viewport" content="width=1380, initial-scale=0.35, minimum-scale=0.2, maximum-scale=2.5, user-scalable=yes" />
   <title>PLAXUS M25 — Studio AB204 Editorial Monograph</title>
 
@@ -87,6 +87,7 @@
       z-index: 9999;
       transform: translate(-50%, -50%);
       display: none;
+      transition: width 0.15s, height 0.15s, border-color 0.15s, background-color 0.15s;
     }
 
     @media (min-width: 1024px) {
@@ -326,6 +327,7 @@
     .chrono-date-banner { color: var(--accent-warm); font-size: 0.84rem; font-family: var(--font-biomorph); margin-top: 8px; }
     .chrono-controls { display: flex; gap: 8px; margin-top: 18px; padding-top: 14px; border-top: 1px solid rgba(255, 255, 255, 0.08); justify-content: flex-end; }
 
+    /* Nav Slider Bar with Arrow Controls */
     .tab-slider-wrapper {
       position: relative;
       display: flex;
@@ -415,6 +417,7 @@
     .btn-like { background: rgba(244, 63, 94, 0.12); border: 1px solid rgba(244, 63, 94, 0.35); color: #fda4af; padding: 5px 10px; font-size: 0.72rem; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; clip-path: polygon(5px 0, 100% 0, calc(100% - 5px) 100%, 0 100%); transition: transform 0.15s ease; }
     .btn-like:active { transform: scale(0.92); }
 
+    /* Cockpit Strip */
     .cockpit-strip {
       display: grid;
       grid-template-columns: 1.1fr 1fr 1.6fr;
@@ -474,6 +477,7 @@
     .tab-section { display: none; }
     .tab-section.active { display: block; }
 
+    /* Tri-Hub */
     .tri-hub-editorial {
       display: grid;
       grid-template-columns: 1fr 1.25fr 1.2fr;
@@ -555,6 +559,7 @@
     .spotlight-avatar img { width: 100%; height: 100%; object-fit: cover; }
     .spotlight-name { font-family: var(--font-serif); font-size: 1.35rem; font-weight: 700; line-height: 1.2; }
 
+    /* Timetable Responsive Sheet */
     .timetable-editorial-sheet {
       background: linear-gradient(135deg, rgba(16, 20, 32, 0.75) 0%, rgba(10, 13, 21, 0.9) 100%);
       border: 1px solid var(--card-border);
@@ -647,7 +652,7 @@
       <div class="ribbon-tag" style="color:var(--accent-warm);"><span class="live-dot"></span> DISPATCH</div>
       <div class="ribbon-track">
         <span class="marquee-text-flow" id="marquee-text-content">
-          World Habitat Day on 05-10-26, 10 AM onwards • Conference Hall • Department of Architecture & Planning, NIT Calicut
+          The best plans leave room to be lived in. • Department of Architecture & Planning, NIT Calicut • M.Plan Semester 3 Session in Studio AB204
         </span>
       </div>
     </div>
@@ -685,8 +690,8 @@
       <div class="cockpit-panel">
         <div>
           <div class="cockpit-tag" style="color:var(--cyan);"><span class="live-dot" style="background:var(--cyan); box-shadow:0 0 10px var(--cyan);"></span>TODAY'S TIMETABLE LOAD</div>
-          <div class="cockpit-value-lead" id="cockpit-today-title">Weekend Recess</div>
-          <div style="font-size:0.8rem; color:var(--text-2);" id="cockpit-today-desc">No scheduled lectures today. Studio AB204 open.</div>
+          <div class="cockpit-value-lead" id="cockpit-today-title">-- Scheduled Classes</div>
+          <div style="font-size:0.8rem; color:var(--text-2);" id="cockpit-today-desc">Evaluating studio schedule matrix...</div>
         </div>
         <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px; font-family:var(--font-biomorph); font-size:0.72rem;">
           <span id="cockpit-today-dayname">Sunday</span><span style="color:var(--accent-warm);">LB: 01:00PM - 02:00PM</span>
@@ -696,8 +701,8 @@
       <div class="cockpit-panel" style="border-color: rgba(229,115,88,0.45); background: linear-gradient(135deg, rgba(229,115,88,0.12) 0%, rgba(13,16,27,0.88) 100%);">
         <div>
           <div class="cockpit-tag" style="color:var(--accent-warm);"><span class="live-dot"></span>THIS CURRENT HOUR</div>
-          <div class="cockpit-value-lead" id="cockpit-current-code">No Lecture</div>
-          <div style="font-size:0.8rem; color:var(--text-2);" id="cockpit-current-time">Weekend Recess</div>
+          <div class="cockpit-value-lead" id="cockpit-current-code">Evaluating...</div>
+          <div style="font-size:0.8rem; color:var(--text-2);" id="cockpit-current-time">Slot In Session</div>
         </div>
         <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px; font-family:var(--font-biomorph); font-size:0.72rem;">
           <span id="cockpit-current-room">Studio AB204</span><span style="color:#22c55e;" id="cockpit-current-status">LIVE NOW</span>
@@ -723,7 +728,7 @@
         <button class="mag-tab-btn active" onclick="switchMagSection('sec-overview', this)"><span>🏛 Studio Overview & Matrix</span></button>
         <button class="mag-tab-btn" onclick="switchMagSection('sec-scholars', this)"><span>👥 Scholar Portfolio Cards</span><span class="mag-pill-counter" id="scholar-badge-count">20</span></button>
         <button class="mag-tab-btn" onclick="switchMagSection('sec-guidelines', this)"><span>📐 Submission Dossiers</span><span class="mag-pill-counter" id="guidelines-badge-count">3</span></button>
-        <button class="mag-tab-btn" onclick="switchMagSection('sec-deadlines', this)"><span>⏳ Deadlines & Milestones</span><span class="mag-pill-counter" id="deadlines-badge-count" style="background:rgba(244,63,94,0.4);">4</span></button>
+        <button class="mag-tab-btn" onclick="switchMagSection('sec-deadlines', this)"><span>⏳ Deadlines & Milestones</span><span class="mag-pill-counter" id="deadlines-badge-count" style="background:rgba(244,63,94,0.4);">3</span></button>
         <button class="mag-tab-btn" onclick="switchMagSection('sec-creative', this)"><span>🎨 Creative Corner</span><span class="mag-pill-counter" id="creative-badge-count" style="background:rgba(56,189,248,0.35);">3</span></button>
         <button class="mag-tab-btn" onclick="switchMagSection('sec-blogs', this)"><span>✍️ Class Blogs & Reflections</span><span class="mag-pill-counter" id="blogs-badge-count" style="background:rgba(229,115,88,0.35);">2</span></button>
         <button class="mag-tab-btn" onclick="switchMagSection('sec-suggestions', this)"><span>💬 Suggestions & Responses</span><span class="mag-pill-counter" id="suggestions-badge-count" style="background:#22c55e;">2</span></button>
@@ -751,13 +756,13 @@
           <div style="display:flex; align-items:center; gap:16px; margin:10px 0 14px;">
             <div class="spotlight-avatar" id="spotlight-avatar">?</div>
             <div>
-              <div class="spotlight-name" id="spotlight-name">Bhavi Chandrakar</div>
-              <div style="font-family:var(--font-biomorph); font-size:0.78rem; color:var(--accent-warm);" id="spotlight-roll">M250725AR</div>
-              <div style="font-size:0.75rem; color:#cbd5e1; margin-top:2px;" id="spotlight-dob">DOB: 07/10/2000</div>
+              <div class="spotlight-name" id="spotlight-name">Loading...</div>
+              <div style="font-family:var(--font-biomorph); font-size:0.78rem; color:var(--accent-warm);" id="spotlight-roll">Roll No.</div>
+              <div style="font-size:0.75rem; color:#cbd5e1; margin-top:2px;" id="spotlight-dob">--</div>
             </div>
           </div>
           <div style="background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.08); clip-path:polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%); padding:8px 14px; display:flex; justify-content:space-between; align-items:center; font-size:0.82rem; margin-bottom:12px;">
-            <span id="spotlight-countdown">In 3 days!</span><span style="color:var(--accent-warm); font-weight:700;">🎂</span>
+            <span id="spotlight-countdown">Calculating celebration...</span><span style="color:var(--accent-warm); font-weight:700;">🎂</span>
           </div>
           <button class="btn-editorial" style="width:100%; justify-content:center; background:linear-gradient(135deg, #e57358, #c85a3b);" onclick="fireConfettiCannon()">🎉 Blast Confetti</button>
         </div>
@@ -911,8 +916,8 @@
             <p style="font-size:0.75rem; color:var(--text-2); font-family:var(--font-biomorph);" id="cal-month-title">October 2026</p>
           </div>
           <div style="display:flex; gap:10px; font-size:0.72rem; color:var(--text-2); font-family:var(--font-biomorph);">
-            <span style="display:flex; align-items:center; gap:4px;"><span class="dot-n"></span> Notice</span>
-            <span style="display:flex; align-items:center; gap:4px;"><span class="dot-d"></span> Deadline</span>
+            <span style="display:flex; align-items:center; gap:4px;"><span class="pulsing-indicator" style="background:var(--accent); box-shadow:none;"></span> Notice</span>
+            <span style="display:flex; align-items:center; gap:4px;"><span class="pulsing-indicator red" style="box-shadow:none;"></span> Deadline</span>
           </div>
         </div>
         <div class="cal-matrix" id="academic-calendar"></div>
@@ -1295,6 +1300,7 @@
     ];
 
     // --- 2. LOCAL PERSISTENT STORAGE ENGINE ---
+    // Reads directly from local cache and never resets unless completely uninitialized
     function safeLoad(key, defaults) {
       try {
         const raw = localStorage.getItem(key);
@@ -1330,17 +1336,9 @@
     let classPhoto = localStorage.getItem('plaxus_class_photo') || "";
     let userBg = localStorage.getItem('plaxus_user_bg') || "";
 
-    // --- 3. FOOLPROOF CLOUD SYNC ENGINE (OPEN CORS REST CLUSTER) ---
-    // Uses JSONBlob open REST endpoint allowing direct GET / PUT without account keys or CORS blocking
-    const FIXED_BLOB_ID = "1289123847129845760";
-    let activeBlobId = localStorage.getItem('plaxus_blob_id') || FIXED_BLOB_ID;
-
-    // Check if URL has a shared blob hash from another user: #blob=...
-    if (window.location.hash && window.location.hash.startsWith('#blob=')) {
-      activeBlobId = window.location.hash.replace('#blob=', '');
-      localStorage.setItem('plaxus_blob_id', activeBlobId);
-    }
-
+    // --- 3. LIVE MULTI-USER CLOUD PERSISTENCE ---
+    // Guaranteed free, direct-read JSON buffer powered by Firebase Realtime DB
+    const FIREBASE_DB_URL = "https://plaxus-m25-nitc-default-rtdb.firebaseio.com/studio_state.json";
     const broadcast = ('BroadcastChannel' in window) ? new BroadcastChannel('plaxus_sync_stream') : null;
 
     if (broadcast) {
@@ -1353,11 +1351,7 @@
 
     async function syncDownCloudState() {
       try {
-        const res = await fetch(`https://jsonblob.com/api/jsonBlob/${activeBlobId}`, {
-          method: 'GET',
-          headers: { 'Accept': 'application/json' },
-          cache: 'no-store'
-        });
+        const res = await fetch(FIREBASE_DB_URL + '?t=' + Date.now(), { cache: 'no-store' });
         if (!res.ok) return false;
         const data = await res.json();
         if (data && data.scholars && data.scholars.length > 0) {
@@ -1384,7 +1378,7 @@
 
     async function pushCloudState() {
       const syncEl = document.getElementById('sync-status-indicator');
-      if (syncEl) syncEl.textContent = "● BROADCASTING...";
+      if (syncEl) syncEl.textContent = "● SYNCING...";
       const payload = {
         scholars,
         timetable,
@@ -1399,37 +1393,11 @@
       };
 
       try {
-        // Attempt PUT to current shared blob
-        let res = await fetch(`https://jsonblob.com/api/jsonBlob/${activeBlobId}`, {
+        await fetch(FIREBASE_DB_URL, {
           method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
-
-        // If the blob does not exist yet (404), create it via POST
-        if (!res.ok && res.status === 404) {
-          const postRes = await fetch('https://jsonblob.com/api/jsonBlob', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json'
-            },
-            body: JSON.stringify(payload)
-          });
-          if (postRes.ok) {
-            const location = postRes.headers.get('Location') || postRes.headers.get('location') || '';
-            const newId = location.split('/').pop();
-            if (newId) {
-              activeBlobId = newId;
-              localStorage.setItem('plaxus_blob_id', activeBlobId);
-              window.history.replaceState(null, '', `#blob=${activeBlobId}`);
-            }
-          }
-        }
-
         if (syncEl) syncEl.textContent = "● LIVE SYNC ACTIVE";
         if (broadcast) broadcast.postMessage({ type: 'SYNC' });
       } catch (err) {
@@ -1454,7 +1422,7 @@
     }
 
     function forcePushCloudData() {
-      pushCloudState().then(() => alert("All studio edits broadcasted to cloud across devices!"));
+      pushCloudState().then(() => alert("Changes forcibly broadcasted to all connected devices."));
     }
 
     // Auto-poll every 3.5 seconds across all devices
@@ -2796,12 +2764,12 @@
       try { updateCockpitHours(); } catch(e) { console.error('Cockpit render error:', e); }
     }
 
-    // --- 19. STARTUP DISPATCH ---
+    // --- 19. STARTUP & SYNC INITIALIZATION ---
     document.addEventListener('DOMContentLoaded', async () => {
-      // 1. Initial local render so UI loads instantly without white screens
+      // 1. Render immediately from local memory so there is ZERO screen flicker or reset
       renderEverything();
 
-      // 2. Fetch the latest live cloud state from the shared cloud cluster
+      // 2. Fetch the latest live cloud state from Firebase in the background
       await syncDownCloudState();
 
       if (window.location.hash === '#cr-suite') openCRAuthModal();
